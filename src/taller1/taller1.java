@@ -3,11 +3,14 @@ package taller1;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class taller1 {
 
-    static String[] alumnos = new String[79];
-    static String[] solicitudes = new String[79];
+    static String[] alumnos = new String[100];
+    static String[] solicitudes = new String[100];
+    static String[] Ingresados = new String[100];
+    static String[] Rechazados = new String[100];
 
     static int cantidadAlumnos = 0;
     static int cantidadSolicitudes = 0;
@@ -31,11 +34,33 @@ public class taller1 {
             opcion = s.nextInt();
             s.nextLine();
 
+            try {
+			
+			if(opcion>7 | opcion<0) {
+			throw new IOException("opcion invalida, intente denuevo");
+			
+			
+			}
+		}catch(IOException  e){
+			System.out.println(e.getMessage());	
+        }
+
             switch (opcion) {
 
                 case 1:
-                    Cargar_Archivos();
-                    break;               
+                    cargarArchivos();
+                    break; 
+                case 2:
+                    procesarSolicitudes();
+			        break;
+		        case 3:
+			        break;
+		        case 4:
+			        break;
+		        case 5:
+			        break;
+		        case 6:
+			        break;
             }
 
         } while (opcion != 7);
@@ -43,7 +68,22 @@ public class taller1 {
         s.close();
     }
 
-    private static void Cargar_Archivos() {
+    public static void procesarSolicitudes() {
+        for (int i=0; i < cantidadSolicitudes; i++) {
+            for(int j=0; j < cantidadAlumnos; j++){
+                if(solicitudes[i].equals(alumnos[j])){
+                    Ingresados[i] = solicitudes[i];
+                    }
+            
+            }
+        
+
+        System.out.println("Procesando solicitudes...");
+        // Aquí puedes agregar la lógica para procesar las solicitudes
+        }
+    }
+    
+    private static void cargarArchivos() {
 
         File Archivo = new File("alumnos.txt");
         File Archivo2 = new File("solicitudes.txt");
