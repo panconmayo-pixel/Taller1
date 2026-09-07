@@ -45,16 +45,7 @@ public class taller1 {
 			System.out.println(e.getMessage());	
 		}
 
-            try {
-			
-			if(opcion>7 | opcion<0) {
-			throw new IOException("opcion invalida, intente denuevo");
-			
-			
-			}
-		}catch(IOException  e){
-			System.out.println(e.getMessage());	
-        }
+           
 
             switch (opcion) {
 
