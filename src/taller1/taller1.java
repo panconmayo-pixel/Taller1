@@ -28,8 +28,19 @@ public class taller1 {
             System.out.println("7) Salir");
             System.out.println("Selecciona una opcion: ");
 
+            
             opcion = s.nextInt();
             s.nextLine();
+            try {
+			
+			if(opcion>7 | opcion<0) {
+			throw new IOException("opcion invalida, intente denuevo");
+			
+			
+			}
+		}catch(IOException  e){
+			System.out.println(e.getMessage());	
+		}
 
             switch (opcion) {
 
