@@ -73,8 +73,15 @@ public class taller1 {
     public static void procesarSolicitudes() {
         for (int i=0; i < cantidadSolicitudes; i++) {
             for(int j=0; j < cantidadAlumnos; j++){
-                if(solicitudes[i].equals(alumnos[j])){
-                    Ingresados[i] = solicitudes[i];
+                String[] Partes= solicitudes[i].split("-");
+                String[] Partes2= alumnos[j].split(";");
+
+
+                if(Partes[0].equalsIgnoreCase(Partes2[0]) && Partes[1].equalsIgnoreCase(Partes2[1])){//Preguntar si el que haya un alumno en la list6a alumno significa que tiene un paralelo
+                    Ingresados[i] = Partes2[2]+Partes2[3];
+                    }else{
+                        Rechazados[i] = Partes[0]+Partes[1];
+
                     }
             
             }
