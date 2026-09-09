@@ -11,6 +11,8 @@ public class taller1 {
     static String[] solicitudes = new String[100];
     static String[] Ingresados = new String[100];
     static String[] Rechazados = new String[100];
+    static int cantidadIngresados = 0;
+static int cantidadRechazados = 0;
 
     static int cantidadAlumnos = 0;
     static int cantidadSolicitudes = 0;
@@ -36,7 +38,7 @@ public class taller1 {
             s.nextLine();
             try {
 			
-			if(opcion>7 | opcion<0) {
+			if(opcion>7 || opcion<0) {
 			throw new IOException("opcion invalida, intente denuevo");
 			
 			
@@ -70,27 +72,86 @@ public class taller1 {
         s.close();
     }
 
-    public static void procesarSolicitudes() {
+    
+    private static void procesarSolicitudes() {
+        System.out.println("Procesando solicitudes...");
         for (int i=0; i < cantidadSolicitudes; i++) {
+            boolean encontrado = false;
+           
+            String[] Partes= solicitudes[i].split("-");
             for(int j=0; j < cantidadAlumnos; j++){
-                String[] Partes= solicitudes[i].split("-");
-                String[] Partes2= alumnos[j].split(";");
+                
+            String[]Partes2= alumnos[j].split(";");
 
 
                 if(Partes[0].equalsIgnoreCase(Partes2[0]) && Partes[1].equalsIgnoreCase(Partes2[1])){//Preguntar si el que haya un alumno en la list6a alumno significa que tiene un paralelo
-                    Ingresados[i] = Partes2[2]+Partes2[3];
-                    }else{
-                        Rechazados[i] = Partes[0]+Partes[1];
-
+                    encontrado=true;
+                     if(Ingresados[0] == null){
+                        Ingresados[0] = Partes2[0] + Partes2[1] +Partes2[2]+Partes2[3];
+                        System.out.println(Ingresados[0]);
+                        System.out.println("[OK]       "+Partes2[0]+" "+Partes2[1] +" -> admitido en " + Partes2[3]);
+                        cantidadIngresados++;
+                        break;
                     }
-            
+                          
+                    
+                    ingresaGrupo(Partes2,i);
+
+                    break;
+                }
+
             }
+
+            if(!encontrado){
+            rechazadoGrupo(Partes,i);
+
+            }
+        }
+
+       
+        // Aquí puedes agregar la lógica para procesar las solicitudes
+}
+        
+    
+    
+    public static void ingresaGrupo( String[] Partes2, int i) {
+
+        
+       
+           
+            
+                 for (int a = 0; a < Ingresados.length; a++) {
+                    if(Ingresados[a] != null){
+                        if(Ingresados[a].equalsIgnoreCase(Partes2[0] + Partes2[1] +Partes2[2]+Partes2[3])){
+                            System.out.println(Ingresados[a]);
+                            System.out.println("Ya se encuentra en el grupo");
+                            break;
+                        }
+                }
+            }
+                    Ingresados[cantidadIngresados] =Partes2[0] + Partes2[1] +Partes2[2]+Partes2[3];
+                    System.out.println(Ingresados[cantidadIngresados]);
+                    System.out.println("[OK]       "+Partes2[0]+" "+Partes2[1] +" -> admitido en " + Partes2[3]);
+                    cantidadIngresados++;
+                    
+                
+
+            }
+
+
+           
+        
+        
+        
+    
+    public static void rechazadoGrupo(String[] Partes, int i) {
+        Rechazados[cantidadRechazados] = Partes[0]+Partes[1];
+        System.out.println("[RECHAZO]  " + Rechazados[cantidadRechazados] + " -> no cumple con los requisitos");
+        cantidadRechazados++;
+    }
+
         
 
-        System.out.println("Procesando solicitudes...");
-        // Aquí puedes agregar la lógica para procesar las solicitudes
-        }
-    }
     
     private static void cargarArchivos() {
 
