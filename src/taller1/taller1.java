@@ -9,10 +9,13 @@ public class taller1 {
 
     static String[] alumnos = new String[100];
     static String[] solicitudes = new String[100];
-    static String[] Ingresados = new String[100];
-    static String[] Rechazados = new String[100];
+    static String[] IngresadosNombres = new String[100];
+    static String[] IngresadosApelliodos = new String[100];
+    static String[] RechazadosNombres = new String[100];
+    static String[] RechazadosApellidos = new String[100];
     static int cantidadIngresados = 0;
-static int cantidadRechazados = 0;
+    static int cantidadRechazados = 0;
+    static int totalcantidadDuplicados = 0;
 
     static int cantidadAlumnos = 0;
     static int cantidadSolicitudes = 0;
@@ -33,22 +36,16 @@ static int cantidadRechazados = 0;
             System.out.println("7) Salir");
             System.out.println("Selecciona una opcion: ");
 
-            
             opcion = s.nextInt();
             s.nextLine();
             try {
 			
 			if(opcion>7 || opcion<0) {
-			throw new IOException("opcion invalida, intente denuevo");
-			
-			
+			throw new IOException("opcion invalida, intente denuevo");	
 			}
 		}catch(IOException  e){
 			System.out.println(e.getMessage());	
 		}
-
-           
-
             switch (opcion) {
 
                 case 1:
@@ -74,81 +71,65 @@ static int cantidadRechazados = 0;
 
     
     private static void procesarSolicitudes() {
-        System.out.println("Procesando solicitudes...");
-        for (int i=0; i < cantidadSolicitudes; i++) {
-            boolean encontrado = false;
-           
-            String[] Partes= solicitudes[i].split("-");
-            for(int j=0; j < cantidadAlumnos; j++){
-                
-            String[]Partes2= alumnos[j].split(";");
+       int cantAdmitidos=0;
+       int cantRechazados=0;
+       int cantiDuplicados=0;
 
-
-                if(Partes[0].equalsIgnoreCase(Partes2[0]) && Partes[1].equalsIgnoreCase(Partes2[1])){//Preguntar si el que haya un alumno en la list6a alumno significa que tiene un paralelo
-                    encontrado=true;
-                     if(Ingresados[0] == null){
-                        Ingresados[0] = Partes2[0] + Partes2[1] +Partes2[2]+Partes2[3];
-                        System.out.println(Ingresados[0]);
-                        System.out.println("[OK]       "+Partes2[0]+" "+Partes2[1] +" -> admitido en " + Partes2[3]);
-                        cantidadIngresados++;
-                        break;
-                    }
-                          
-                    
-                    ingresaGrupo(Partes2,i);
-
-                    break;
-                }
-
-            }
-
-            if(!encontrado){
-            rechazadoGrupo(Partes,i);
-
+       for (int i = 0; i < solicitudes.length; i++) { 
+        String solNombres= solicitudes[i].split("-")[0];
+        String solApellidos= solicitudes[i].split("-")[1];
+        boolean yaProcesado=false;
+        for (int j = 0; j <cantidadIngresados ; j++){
+            
+            if(IngresadosNombres[j].equalsIgnoreCase(solNombres) && IngresadosApelliodos[j].equalsIgnoreCase(solApellidos)){       
+                yaProcesado=true;
+                break;
             }
         }
+        if(!yaProcesado){
+            
+            for (int j = 0; j < cantidadRechazados; j++) {
+                if(RechazadosNombres[j].equalsIgnoreCase(solNombres) && RechazadosApellidos[j].equalsIgnoreCase(solApellidos)){
+                    yaProcesado=true;
+                    break;
+                }
+            }
 
+        }
+        if(yaProcesado){
+            cantiDuplicados++;
+            totalcantidadDuplicados++;
+            continue;
+        }
+        boolean esAlumno=false;
+        for (int j = 0; j < alumnos.length; j++){
+            if(alumnos[j].split(";")[0].equalsIgnoreCase(solNombres) && alumnos[j].split(";")[1].equalsIgnoreCase(solApellidos)){
+                
+               
+                esAlumno=true;
+                break;
+            }
+            
+        }
+        if(!esAlumno){
+
+        }
+
+    }
+
+
+       
        
         // Aquí puedes agregar la lógica para procesar las solicitudes
 }
         
     
     
-    public static void ingresaGrupo( String[] Partes2, int i) {
-
-        
-       
-           
-            
-                 for (int a = 0; a < Ingresados.length; a++) {
-                    if(Ingresados[a] != null){
-                        if(Ingresados[a].equalsIgnoreCase(Partes2[0] + Partes2[1] +Partes2[2]+Partes2[3])){
-                            System.out.println(Ingresados[a]);
-                            System.out.println("Ya se encuentra en el grupo");
-                            break;
-                        }
-                }
-            }
-                    Ingresados[cantidadIngresados] =Partes2[0] + Partes2[1] +Partes2[2]+Partes2[3];
-                    System.out.println(Ingresados[cantidadIngresados]);
-                    System.out.println("[OK]       "+Partes2[0]+" "+Partes2[1] +" -> admitido en " + Partes2[3]);
-                    cantidadIngresados++;
-                    
-                
-
-            }
-
-
-           
-        
-        
+ 
+   
         
     
-    public static void rechazadoGrupo(String[] Partes, int i) {
-        Rechazados[cantidadRechazados] = Partes[0]+Partes[1];
-        System.out.println("[RECHAZO]  " + Rechazados[cantidadRechazados] + " -> no cumple con los requisitos");
-        cantidadRechazados++;
-    }
+   
 
         
 
