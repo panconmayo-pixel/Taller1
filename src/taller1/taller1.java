@@ -144,6 +144,7 @@ public class taller1 {
 
             }
         }
+        System.out.println("Resumen del procesamiento de solicitudes: "+cantidadIngresados+" ingresados/"+cantidadRechazados+" rechazados" );
 
        
        
