@@ -11,15 +11,13 @@ public class taller1 {
     static String[] solicitudes = new String[100];
     static String[] IngresadosNombres = new String[100];
     static String[] IngresadosApelliodos = new String[100];
+    static String[] IngresadosRuts = new String[100];
+    static String[] IngresadosParalelos = new String[100];
     static String[] RechazadosNombres = new String[100];
     static String[] RechazadosApellidos = new String[100];
-    static int cantidadIngresados = 0;
-    static int cantidadRechazados = 0;
-    static int totalcantidadDuplicados = 0;
-
     static int cantidadAlumnos = 0;
     static int cantidadSolicitudes = 0;
-
+    static int totalcantidadDuplicados = 0;
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
@@ -71,11 +69,16 @@ public class taller1 {
 
     
     private static void procesarSolicitudes() {
-       int cantAdmitidos=0;
-       int cantRechazados=0;
+       
+       
        int cantiDuplicados=0;
+       int cantidadIngresados=0;
+       int cantidadRechazados=0;
+       
 
        for (int i = 0; i < solicitudes.length; i++) { 
+        if(solicitudes[i]!=null){
+        
         String solNombres= solicitudes[i].split("-")[0];
         String solApellidos= solicitudes[i].split("-")[1];
         boolean yaProcesado=false;
@@ -83,40 +86,64 @@ public class taller1 {
             
             if(IngresadosNombres[j].equalsIgnoreCase(solNombres) && IngresadosApelliodos[j].equalsIgnoreCase(solApellidos)){       
                 yaProcesado=true;
+                System.out.println("[RECHAZO] Solicitud de "+solNombres+" "+solApellidos+"-> ya fue ingresado anteriormente");
                 break;
             }
         }
-        if(!yaProcesado){
+        if(yaProcesado == false){
             
             for (int j = 0; j < cantidadRechazados; j++) {
                 if(RechazadosNombres[j].equalsIgnoreCase(solNombres) && RechazadosApellidos[j].equalsIgnoreCase(solApellidos)){
                     yaProcesado=true;
+                    System.out.println("[RECHAZO] Solicitud de "+solNombres+" "+solApellidos+"-> ya fue rechazada anteriormente");
                     break;
                 }
             }
 
         }
-        if(yaProcesado){
+        if(yaProcesado == true){
             cantiDuplicados++;
             totalcantidadDuplicados++;
+            
             continue;
         }
         boolean esAlumno=false;
-        for (int j = 0; j < alumnos.length; j++){
-            if(alumnos[j].split(";")[0].equalsIgnoreCase(solNombres) && alumnos[j].split(";")[1].equalsIgnoreCase(solApellidos)){
-                
-               
-                esAlumno=true;
-                break;
-            }
+        if (cantidadIngresados==0){
+            primerIngreso(solNombres, solApellidos,esAlumno,cantidadIngresados);
+            cantidadIngresados++;
             
+
+        }else{
+        
+        for (int j = 0; j < alumnos.length; j++){
+           
+            if(alumnos[j]!=null){
+            String alumnoNombre=alumnos[j].split(";")[0];
+            String alumnoApellido=alumnos[j].split(";")[1];
+            if(alumnoNombre.equalsIgnoreCase(solNombres) && alumnoApellido.equalsIgnoreCase(solApellidos)){
+                IngresadosNombres[cantidadIngresados]=solNombres;
+                IngresadosApelliodos[cantidadIngresados]=solApellidos;
+                IngresadosRuts[cantidadIngresados]=alumnos[j].split(";")[2];
+                IngresadosParalelos[cantidadIngresados]=alumnos[j].split(";")[3];
+
+                cantidadIngresados++;
+                esAlumno=true;
+                System.out.println("Solicitud de "+solNombres+" "+solApellidos+" -> admitido en "+alumnos[j].split(";")[3]);
+                break;
+                    }
+            
+                }
+            }
         }
         if(!esAlumno){
+            RechazadosNombres[cantidadRechazados]=solNombres;
+            RechazadosApellidos[cantidadRechazados]=solApellidos;
+            cantidadRechazados++;
+            System.out.println("[RECHAZO] Solicitud de "+solNombres+" "+solApellidos+"-> no pertenece a ningun paralelo");
+                }
 
+            }
         }
-
-    }
-
 
        
        
@@ -124,16 +151,22 @@ public class taller1 {
 }
         
     
-    
- 
-   
-        
-    
-   
+    public static void primerIngreso(String solNombres, String solApellidos, boolean esAlumno, int cantidadIngresados) {
+       String alumnoNombre=alumnos[0].split(";")[0];
+            String alumnoApellido=alumnos[0].split(";")[1];
+            if(alumnoNombre.equalsIgnoreCase(solNombres) && alumnoApellido.equalsIgnoreCase(solApellidos)){
+                IngresadosNombres[cantidadIngresados]=solNombres;
+                IngresadosApelliodos[cantidadIngresados]=solApellidos;
+                IngresadosRuts[cantidadIngresados]=alumnos[0].split(";")[2];
+                IngresadosParalelos[cantidadIngresados]=alumnos[0].split(";")[3];
 
-        
+                cantidadIngresados++;
+                esAlumno=true;
+                System.out.println("Solicitud de "+solNombres+" "+solApellidos+" -> admitido en "+alumnos[0].split(";")[3]);
+            }
+    }
 
-    
+
     private static void cargarArchivos() {
 
         File Archivo = new File("alumnos.txt");
