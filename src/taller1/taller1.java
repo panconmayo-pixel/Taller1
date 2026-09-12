@@ -53,6 +53,7 @@ public class taller1 {
                     procesarSolicitudes();
 			        break;
 		        case 3:
+                    inscripcionManual();
 			        break;
 		        case 4:
 			        break;
@@ -68,6 +69,32 @@ public class taller1 {
     }
 
     
+    private static void inscripcionManual() {
+    Scanner scanner=new Scanner(System.in);   
+    System.out.println("Inscripcion manual al grupo");
+    System.out.println("Ingrese el nombre que quiere ingersar: ");
+    String nombreNuevo = null;
+    String apellidoNuevo=null;
+    try{
+    nombreNuevo=scanner.nextLine();
+    apellidoNuevo=scanner.nextLine();
+    throw new Exception("Error al ingresar el nombre o apellido");
+    }catch(Exception e){
+        e.getMessage();
+    }
+    for(int i=0;i<cantidadAlumnos;i++){
+        if(nombreNuevo.equalsIgnoreCase(IngresadosNombres[i]) && apellidoNuevo.equalsIgnoreCase(IngresadosApelliodos[i])){
+            System.out.println("El alumno ya ha sido ingresado al chat");
+       }
+    }
+    for(int i=0;i<cantidadAlumnos;i++){
+        if(nombreNuevo.equalsIgnoreCase(alumnos[i].split(";")[0]) && apellidoNuevo.equalsIgnoreCase(alumnos[i].split(";")[1])){
+            System.out.println("Es alumno ingresar al grupo");
+       }
+    }
+}
+
+
     private static void procesarSolicitudes() {
        
        
