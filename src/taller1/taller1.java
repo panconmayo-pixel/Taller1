@@ -18,6 +18,7 @@ public class taller1 {
     static int cantidadAlumnos = 0;
     static int cantidadSolicitudes = 0;
     static int totalcantidadDuplicados = 0;
+    static int totalcantidadRechazados=0;
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
@@ -56,6 +57,7 @@ public class taller1 {
                     inscripcionManual();
 			        break;
 		        case 4:
+                    administracionCurso();
 			        break;
 		        case 5:
 			        break;
@@ -69,32 +71,127 @@ public class taller1 {
     }
 
     
+    private static void administracionCurso() {
+       System.out.println("Administracion del curso");
+       Scanner scanner= new Scanner(System.in);
+       System.out.println("Seleccione opcion:");
+       System.out.println("1) Cambiar paralelo de un alumno");
+       System.out.println("2) Eliminar alumno del curso");
+       System.out.println("3) Inscribir alumno nuevo");
+       System.out.println("4) Volver al menu principal");
+
+       System.out.println("Ingrese opcion:");
+       int opcion=scanner.nextInt();
+       while(opcion<1||opcion>4){
+        System.out.println("Opcion invalida, ingrese nuevamente");
+        opcion=scanner.nextInt();
+
+       }
+       switch(opcion){
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+       }
+    }
+
+
     private static void inscripcionManual() {
     Scanner scanner=new Scanner(System.in);   
     System.out.println("Inscripcion manual al grupo");
-    System.out.println("Ingrese el nombre que quiere ingersar: ");
-    String nombreNuevo = null;
-    String apellidoNuevo=null;
-    try{
-    nombreNuevo=scanner.nextLine();
-    apellidoNuevo=scanner.nextLine();
-    throw new Exception("Error al ingresar el nombre o apellido");
-    }catch(Exception e){
-        e.getMessage();
+    System.out.println("Como desea inscribir a la persona?");
+    System.out.println("1) Por nombre completo");
+    System.out.println("2) Por RUT");
+    System.out.println("Ingrese opcion:");
+    int opcion=scanner.nextInt();
+    while(opcion<1||opcion>2){
+        System.out.println("Opcion invalida, ingrese nuevamente");
+        opcion=scanner.nextInt();
     }
-    for(int i=0;i<cantidadAlumnos;i++){
-        if(nombreNuevo.equalsIgnoreCase(IngresadosNombres[i]) && apellidoNuevo.equalsIgnoreCase(IngresadosApelliodos[i])){
-            System.out.println("El alumno ya ha sido ingresado al chat");
-       }
+    if(opcion==1){
+        inscripcionPorNombre();
+        }else{
+        inscripcionPorRut();
+        }
     }
-    for(int i=0;i<cantidadAlumnos;i++){
-        if(nombreNuevo.equalsIgnoreCase(alumnos[i].split(";")[0]) && apellidoNuevo.equalsIgnoreCase(alumnos[i].split(";")[1])){
-            System.out.println("Es alumno ingresar al grupo");
-       }
-    }
-}
+    
+    private static void inscripcionPorRut() {
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Ingrese el RUT del alumno:");
+        String rutNuevo=null;
+        try{
+            rutNuevo=scanner.nextLine();
+            throw new Exception("Error al ingresar el RUT");
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            for(int i=0;i<cantidadAlumnos;i++){
+                if(rutNuevo.equalsIgnoreCase(alumnos[i].split(";")[2])){
+                System.out.println("Solicitud de "+alumnos[i].split(";")[0]+" "+alumnos[i].split(";")[1]+" -> admitido en "+alumnos[i].split(";")[3]);
+                System.out.println("Es alumno ingresar al grupo");
+                IngresadosNombres[cantidadAlumnos]=alumnos[i].split(";")[0];
+                IngresadosApelliodos[cantidadAlumnos]=alumnos[i].split(";")[1];
+                IngresadosRuts[cantidadAlumnos]=alumnos[i].split(";")[2];
+                break;
+                    }else{
+                        System.out.println("El rut "+rutNuevo+" no pertenece a ningun alumno");
+                        System.out.println("No tenemos su nombre, por lo que se registrara solo el RUT en los rechazados.");
+                        RechazadosNombres[totalcantidadRechazados]="Desconocido solo se dispone del RUT";
+                        RechazadosApellidos[totalcantidadRechazados]="Desconocido solo se dispone del RUT";
+                        totalcantidadRechazados++;
+                    }
+            }
+            scanner.close();
+        }
 
+    private static void inscripcionPorNombre() {
+        // TODO Auto-generated method stub
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Ingrese el nombre del alumno:");
+        String nombreNuevo = null;
+        String apellidoNuevo=null;
+        try{
+            nombreNuevo=scanner.nextLine();
+            System.out.println("Ingrese el apellido que quiere ingersar: ");
+            apellidoNuevo=scanner.nextLine();
+            throw new Exception("Error al ingresar el nombre o apellido");
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            boolean yaExiste=false;
+            for(int i=0;i<cantidadAlumnos;i++){
+                if(nombreNuevo.equalsIgnoreCase(IngresadosNombres[i]) && apellidoNuevo.equalsIgnoreCase(IngresadosApelliodos[i])){
+                System.out.println("El alumno ya ha sido ingresado al chat");
+                yaExiste=true;
+                break;
+                }
+            }
+            
+            for(int i=0;i<cantidadAlumnos;i++){
+                if(nombreNuevo.equalsIgnoreCase(alumnos[i].split(";")[0]) && apellidoNuevo.equalsIgnoreCase(alumnos[i].split(";")[1])){
+                System.out.println("Solicitud de "+nombreNuevo+" "+apellidoNuevo+" -> admitido en "+alumnos[i].split(";")[3]);
+                System.out.println("Es alumno ingresar al grupo");
+                IngresadosNombres[cantidadAlumnos]=nombreNuevo;
+                IngresadosApelliodos[cantidadAlumnos]=apellidoNuevo;
+                IngresadosRuts[cantidadAlumnos]=alumnos[i].split(";")[2];
+                yaExiste=true;
+                    }
+                }
+            if(!yaExiste){
+                System.out.println("El alumno no pertenece a ningun paralelo");}
+                //totalcantidadRechazados
+                RechazadosNombres[totalcantidadRechazados]=nombreNuevo;
+                RechazadosApellidos[totalcantidadRechazados]=apellidoNuevo;
+                totalcantidadRechazados++;
+                System.out.println("[RECHAZO] Solicitud de "+nombreNuevo+" "+apellidoNuevo+"-> no pertenece a ningun paralelo")
+                ;
 
+            scanner.close();
+        }
     private static void procesarSolicitudes() {
        
        
@@ -102,7 +199,6 @@ public class taller1 {
        int cantidadIngresados=0;
        int cantidadRechazados=0;
        
-
        for (int i = 0; i < solicitudes.length; i++) { 
         if(solicitudes[i]!=null){
         
@@ -166,6 +262,7 @@ public class taller1 {
             RechazadosNombres[cantidadRechazados]=solNombres;
             RechazadosApellidos[cantidadRechazados]=solApellidos;
             cantidadRechazados++;
+            totalcantidadRechazados++;
             System.out.println("[RECHAZO] Solicitud de "+solNombres+" "+solApellidos+"-> no pertenece a ningun paralelo");
                 }
 
