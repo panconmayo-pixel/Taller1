@@ -1,12 +1,13 @@
 package taller1;
 
 import java.util.Scanner;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class taller1 {
-
+    static Scanner scanner=new Scanner(System.in);
     static String[] alumnos = new String[100];
     static String[] solicitudes = new String[100];
     static String[] IngresadosNombres = new String[100];
@@ -19,6 +20,7 @@ public class taller1 {
     static int cantidadSolicitudes = 0;
     static int totalcantidadDuplicados = 0;
     static int totalcantidadRechazados=0;
+     static int totalCantidadAlumnos = 0;
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
@@ -73,7 +75,7 @@ public class taller1 {
     
     private static void administracionCurso() {
        System.out.println("Administracion del curso");
-       Scanner scanner= new Scanner(System.in);
+      
        System.out.println("Seleccione opcion:");
        System.out.println("1) Cambiar paralelo de un alumno");
        System.out.println("2) Eliminar alumno del curso");
@@ -89,6 +91,7 @@ public class taller1 {
        }
        switch(opcion){
         case 1:
+            cambiarParalelo();
             break;
         case 2:
             break;
@@ -100,8 +103,80 @@ public class taller1 {
     }
 
 
+    private static void cambiarParalelo() {
+       System.out.println("Ingrese el rut del alumno");
+        String rutIngresado=null; 
+       
+        try{
+        rutIngresado=scanner.nextLine();
+        throw new IOException ("Invalido. Ingrese valores válidos:");
+       }catch(IOException  e){
+        System.out.println(e.getMessage());
+       }
+       
+            buscarRUT(rutIngresado);
+            
+       
+       
+       String paraleloNuev=null;
+
+       while (paraleloNuev==null || !paraleloNuev.equalsIgnoreCase("C1") || !paraleloNuev.equalsIgnoreCase("C2") ) {
+            System.out.println("Nuevo paralelo (C1/C2):  ");
+            try{
+            paraleloNuev=scanner.nextLine();
+            throw new IOException("Paralelo inválido");
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+                }
+        
+            }
+            cambiarParaleloEfectivo(paraleloNuev,rutIngresado);
+        }
+
+    
+    private static void buscarRUT(String rutIngresado) {
+       for(int i=0; i<totalCantidadAlumnos; i++){
+        if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[3])){
+                System.out.println("Alumno: "+alumnos[i].split(";")[0]+ " "+ alumnos[i].split(";")[1]+ " (actualmente en " +alumnos[i].split(";")[2]+")");
+                
+            }
+       }
+    }
+
+
+    private static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {
+        for(int i=0; i<alumnos.length;i++){
+            if(alumnos[i] == null){
+                break;
+            }else{
+                int indice=buscarIndiuce(rutIngresado);
+                try{
+                    BufferedReader br=new BufferedReader(new FileReader("archivo.txt"))){
+                        
+                        
+                    }
+                }
+
+
+                }
+            }
+
+        }
+    private static int buscarIndiuce(String rutIngresado) {
+        for(int i=0; i<totalCantidadAlumnos; i++){
+            if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[3])){
+                return i;
+            }
+            
+        }
+        return 0;
+        
+    }
+    
+
+
     private static void inscripcionManual() {
-    Scanner scanner=new Scanner(System.in);   
+   
     System.out.println("Inscripcion manual al grupo");
     System.out.println("Como desea inscribir a la persona?");
     System.out.println("1) Por nombre completo");
@@ -120,7 +195,7 @@ public class taller1 {
     }
     
     private static void inscripcionPorRut() {
-        Scanner scanner=new Scanner(System.in);
+        
         System.out.println("Ingrese el RUT del alumno:");
         String rutNuevo=null;
         try{
@@ -145,12 +220,11 @@ public class taller1 {
                         totalcantidadRechazados++;
                     }
             }
-            scanner.close();
+            
         }
 
     private static void inscripcionPorNombre() {
-        // TODO Auto-generated method stub
-        Scanner scanner=new Scanner(System.in);
+        
         System.out.println("Ingrese el nombre del alumno:");
         String nombreNuevo = null;
         String apellidoNuevo=null;
@@ -179,6 +253,7 @@ public class taller1 {
                 IngresadosApelliodos[cantidadAlumnos]=apellidoNuevo;
                 IngresadosRuts[cantidadAlumnos]=alumnos[i].split(";")[2];
                 yaExiste=true;
+                break;
                     }
                 }
             if(!yaExiste){
@@ -187,10 +262,10 @@ public class taller1 {
                 RechazadosNombres[totalcantidadRechazados]=nombreNuevo;
                 RechazadosApellidos[totalcantidadRechazados]=apellidoNuevo;
                 totalcantidadRechazados++;
-                System.out.println("[RECHAZO] Solicitud de "+nombreNuevo+" "+apellidoNuevo+"-> no pertenece a ningun paralelo")
-                ;
+                System.out.println("[RECHAZO] Solicitud de "+nombreNuevo+" "+apellidoNuevo+"-> no pertenece a ningun paralelo");
+                
 
-            scanner.close();
+            
         }
     private static void procesarSolicitudes() {
        
@@ -273,7 +348,7 @@ public class taller1 {
        
        
         // Aquí puedes agregar la lógica para procesar las solicitudes
-}
+    }
         
     
     public static void primerIngreso(String solNombres, String solApellidos, boolean esAlumno, int cantidadIngresados) {
@@ -302,6 +377,7 @@ public class taller1 {
                 String Linea = Lector.nextLine();
                 alumnos[cantidadAlumnos] = Linea;
                 cantidadAlumnos++;
+                totalCantidadAlumnos++;
             }
         } catch (FileNotFoundException e) {
             System.out.println("No se encontro Alumnos.txt");
