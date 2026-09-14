@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class taller1 {
@@ -150,10 +151,22 @@ public class taller1 {
                 break;
             }else{
                 int indice=buscarIndiuce(rutIngresado);
+                
                 try{
-                    BufferedReader br=new BufferedReader(new FileReader("archivo.txt"))){
+                    File archivo=new File("alumnos.txt");
+                    Scanner  scanner= new Scanner(archivo);
+                    String paraleAntiguo=alumnos[i].split(";")[-1];
+
+                    BufferedReader writer= new BufferedReader(new FileWriter(archivo));
+                    String Linea= reader.readLine();
+                    while(Linea !=null){
                         
+                    }
+
                         
+                    }catch(IOException e){
+                        System.out.println(e.getMessage());
+                        return;
                     }
                 }
 
@@ -161,7 +174,7 @@ public class taller1 {
                 }
             }
 
-        }
+        
     private static int buscarIndiuce(String rutIngresado) {
         for(int i=0; i<totalCantidadAlumnos; i++){
             if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[3])){
