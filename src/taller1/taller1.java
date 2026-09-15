@@ -1,10 +1,12 @@
 package taller1;
 
 import java.util.Scanner;
-import java.io.BufferedReader;
+
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class taller1 {
@@ -82,15 +84,16 @@ public class taller1 {
        System.out.println("2) Eliminar alumno del curso");
        System.out.println("3) Inscribir alumno nuevo");
        System.out.println("4) Volver al menu principal");
-
+       int opcionEntera=0;
        System.out.println("Ingrese opcion:");
-       int opcion=scanner.nextInt();
-       while(opcion<1||opcion>4){
+       String  opcion=scanner.nextLine();
+       while(!opcion.equalsIgnoreCase("1")||!opcion.equalsIgnoreCase("2") || !opcion.equalsIgnoreCase("3") || !opcion.equalsIgnoreCase("4")){
         System.out.println("Opcion invalida, ingrese nuevamente");
-        opcion=scanner.nextInt();
+        opcion=scanner.nextLine();
+        opcionEntera=Integer.parseInt(opcion);
 
        }
-       switch(opcion){
+       switch(opcionEntera){
         case 1:
             cambiarParalelo();
             break;
@@ -121,7 +124,7 @@ public class taller1 {
        
        String paraleloNuev=null;
 
-       while (paraleloNuev==null || !paraleloNuev.equalsIgnoreCase("C1") || !paraleloNuev.equalsIgnoreCase("C2") ) {
+       while (paraleloNuev==null || !paraleloNuev.equalsIgnoreCase("C1") && !paraleloNuev.equalsIgnoreCase("C2") ) {
             System.out.println("Nuevo paralelo (C1/C2):  ");
             try{
             paraleloNuev=scanner.nextLine();
@@ -146,43 +149,43 @@ public class taller1 {
 
 
     private static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {
-        for(int i=0; i<alumnos.length;i++){
-            if(alumnos[i] == null){
-                break;
-            }else{
+        
                 int indice=buscarIndiuce(rutIngresado);
-                
-                try{
+                int contadorLineas=0;
+                String nuevoDato=alumnos[indice].split(";")[0]+ " "+alumnos[indice].split(";")[1]+";"+alumnos[indice].split(";")[2]+";"+paraleloNuev;
+                // si ya esta admitido actualizar;
+                try{//aqui mismo se escribe el bufferedWriter
                     File archivo=new File("alumnos.txt");
                     Scanner  scanner= new Scanner(archivo);
-                    String paraleAntiguo=alumnos[i].split(";")[-1];
+                    String paraleAntiguo=alumnos[indice].split(";")[-1];
+                    
+                    BufferedWriter writer= new BufferedWriter(new FileWriter(archivo));
+                    
+                    while(scanner.hasNextLine()){
+                        if(contadorLineas== indice){
+                            writer.write(nuevoDato);
 
-                    BufferedReader writer= new BufferedReader(new FileWriter(archivo));
-                    String Linea= reader.readLine();
-                    while(Linea !=null){
+                        }else{
+                            contadorLineas++;
+
+                        }
                         
                     }
-
-                        
                     }catch(IOException e){
                         System.out.println(e.getMessage());
                         return;
                     }
                 }
 
-
-                }
-            }
-
         
     private static int buscarIndiuce(String rutIngresado) {
-        for(int i=0; i<totalCantidadAlumnos; i++){
-            if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[3])){
+        for(int i=0; i<totalCantidadAlumnos; i++){// hay que serciorsrse de que haya 4 partes con un if
+            if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[2])){//
                 return i;
             }
             
         }
-        return 0;
+        return 0;//mejor devolver un -1
         
     }
     
@@ -245,7 +248,7 @@ public class taller1 {
             nombreNuevo=scanner.nextLine();
             System.out.println("Ingrese el apellido que quiere ingersar: ");
             apellidoNuevo=scanner.nextLine();
-            throw new Exception("Error al ingresar el nombre o apellido");
+            throw new Exception("Error al ingresar el nombre o apellido");// se cambia por que siomepre aparece; hay que cambiar 
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }
