@@ -144,8 +144,6 @@ public class borradortaller1 {
             }
 
             boolean encontrado = false;
-
-            // Buscar solicitud dentro de los alumnos
             for (int i = 0; i < 100; i++) {
 
                 if (alumnos[i] == null) {
@@ -166,8 +164,6 @@ public class borradortaller1 {
                     break;
                 }
             }
-
-            // Si no encontró al alumno
             if (!encontrado) {
 
                 nombresRechazados[rechazados] = nombresSolicitudes[j];
@@ -220,10 +216,6 @@ public class borradortaller1 {
 
         int admitidos = 0;
         int rechazados = 0;
-
-        // =========================
-        // BUSQUEDA POR NOMBRE
-        // =========================
 
         if (opcion == 1) {
 
@@ -279,10 +271,6 @@ public class borradortaller1 {
                 );
             }
         }
-
-        // =========================
-        // BUSQUEDA POR RUT
-        // =========================
 
         else if (opcion == 2) {
 
