@@ -81,6 +81,35 @@ public class Taller_1 {
 
         s.close();
     }
+    private static void administracionCurso() {
+       System.out.println("Administracion del curso");
+      
+       System.out.println("Seleccione opcion:");
+       System.out.println("1) Cambiar paralelo de un alumno");
+       System.out.println("2) Eliminar alumno del curso");
+       System.out.println("3) Inscribir alumno nuevo");
+       System.out.println("4) Volver al menu principal");
+       int opcionEntera=-1;
+       System.out.println("Ingrese opcion:");
+       String  opcion=scanner.nextLine();
+       while(!opcion.equalsIgnoreCase("1")||!opcion.equalsIgnoreCase("2") || !opcion.equalsIgnoreCase("3") || !opcion.equalsIgnoreCase("4")){
+        System.out.println("Opcion invalida, ingrese nuevamente");
+        opcion=scanner.nextLine();
+        opcionEntera=Integer.parseInt(opcion);
+
+       }
+       switch(opcionEntera){
+        case 1:
+            cambiarParalelo();
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+       }
+    }
 
 	private static void cambiarParalelo() {
        System.out.println("Ingrese el rut del alumno");
