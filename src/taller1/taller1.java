@@ -87,7 +87,7 @@ public class taller1 {
        int opcionEntera=0;
        System.out.println("Ingrese opcion:");
        String  opcion=scanner.nextLine();
-       while(!opcion.equalsIgnoreCase("1")||!opcion.equalsIgnoreCase("2") || !opcion.equalsIgnoreCase("3") || !opcion.equalsIgnoreCase("4")){
+       while(!opcion.equalsIgnoreCase("1")||!opcion.equalsIgnoreCase("2") || !opcion.equalsIgnoreCase("3")){
         System.out.println("Opcion invalida, ingrese nuevamente");
         opcion=scanner.nextLine();
         opcionEntera=Integer.parseInt(opcion);
@@ -101,10 +101,23 @@ public class taller1 {
             eliminarAlumnoCurso();
             break;
         case 3:
+            agregarAlumno();
             break;
-        case 4:
+       default:
             break;
        }
+    }
+
+
+    private static void agregarAlumno() {
+        System.out.println("Ingresar alumnos");
+        System.out.println("Ingrese el nombre del nuevo alumno");
+        String nombreNuevo=scanner.nextLine();
+        System.out.println("Ingrese el apellido del estudiante");
+        String apellidoNuevo=scanner.nextLine();
+        System.out.println("Ingrese el rut del nuevo alumno");
+        String rutNuevo=scanner.nextLine();
+        System.out.println("ingrese el paralelo (C1/C2) del nuevo alumno");
     }
 
 
@@ -134,20 +147,7 @@ public class taller1 {
         } 
     
     
-    public  static void sobreescribirLista() {
-            try{
-                FileWriter filewrite= new FileWriter("alumnos.txt");
-                BufferedWriter br= new BufferedWriter(filewrite);
-                for(int i=0; i<alumnos.length; i++){
-                    br.write(alumnos[i]);
-                    br.newLine();
-                }
-
-                
-            }catch(Exception e){
-                System.out.println("Error en la sobre escritura del anuncio, contacte soporte tecnico");
-            }
-    }
+   
 
 
     public  static void cambiarordenBusbuja(int indiceEliminar) {
@@ -191,6 +191,7 @@ public class taller1 {
         
             }
             cambiarParaleloEfectivo(paraleloNuev,rutIngresado);
+            sobreescribirLista();
         }
 
     
@@ -207,31 +208,11 @@ public class taller1 {
     public  static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {
         
                 int indice=buscarIndiuce(rutIngresado);
-                int contadorLineas=0;
-                String nuevoDato=alumnos[indice].split(";")[0]+ " "+alumnos[indice].split(";")[1]+";"+alumnos[indice].split(";")[2]+";"+paraleloNuev;
+                
+                alumnos[indice]=alumnos[indice].split(";")[0]+ " "+alumnos[indice].split(";")[1]+";"+alumnos[indice].split(";")[2]+";"+paraleloNuev;
                 // si ya esta admitido actualizar;
-                try{//aqui mismo se escribe el bufferedWriter
-                    File archivo=new File("alumnos.txt");
-                    Scanner  scanner= new Scanner(archivo);
-                    String paraleAntiguo=alumnos[indice].split(";")[-1];
-                    
-                    BufferedWriter writer= new BufferedWriter(new FileWriter(archivo));
-                    
-                    while(scanner.hasNextLine()){
-                        if(contadorLineas== indice){
-                            writer.write(nuevoDato);
-
-                        }else{
-                            contadorLineas++;
-
-                        }
-                        
-                    }
-                    }catch(IOException e){
-                        System.out.println(e.getMessage());
-                        return;
-                    }
-                }
+    }
+                
 
         
     public  static int buscarIndiuce(String rutIngresado) {
@@ -435,6 +416,20 @@ public class taller1 {
                 cantidadIngresados++;
                 esAlumno=true;
                 System.out.println("Solicitud de "+solNombres+" "+solApellidos+" -> admitido en "+alumnos[0].split(";")[3]);
+            }
+    }
+     public  static void sobreescribirLista() {
+            try{
+                FileWriter filewrite= new FileWriter("alumnos.txt");
+                BufferedWriter br= new BufferedWriter(filewrite);
+                for(int i=0; i<alumnos.length; i++){
+                    br.write(alumnos[i]);
+                    br.newLine();
+                }
+
+                
+            }catch(Exception e){
+                System.out.println("Error en la sobre escritura del anuncio, contacte soporte tecnico");
             }
     }
 
