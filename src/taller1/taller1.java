@@ -76,7 +76,7 @@ public class taller1 {
     }
 
     
-    private static void administracionCurso() {
+    public  static void administracionCurso() {
        System.out.println("Administracion del curso");
       
        System.out.println("Seleccione opcion:");
@@ -98,6 +98,7 @@ public class taller1 {
             cambiarParalelo();
             break;
         case 2:
+            eliminarAlumnoCurso();
             break;
         case 3:
             break;
@@ -107,7 +108,62 @@ public class taller1 {
     }
 
 
-    private static void cambiarParalelo() {
+    private static void eliminarAlumnoCurso() {
+        System.out.println("Ingrese el rut del alumno que desee eliminar.");
+        String rutEliminar=null; 
+        try{
+        rutEliminar=scanner.nextLine();
+        throw new IOException("opcion invalida, intente denuevo");
+
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+
+        }
+         int indiceEliminar=buscarIndiuce(rutEliminar);
+         eliminar(indiceEliminar);
+    }
+
+
+    
+
+
+    public  static void eliminar(int indiceEliminar) {
+       alumnos[indiceEliminar]=null;
+       cambiarordenBusbuja(indiceEliminar);
+       sobreescribirLista();
+        } 
+    
+    
+    public  static void sobreescribirLista() {
+            try{
+                FileWriter filewrite= new FileWriter("alumnos.txt");
+                BufferedWriter br= new BufferedWriter(filewrite);
+                for(int i=0; i<alumnos.length; i++){
+                    br.write(alumnos[i]);
+                    br.newLine();
+                }
+
+                
+            }catch(Exception e){
+                System.out.println("Error en la sobre escritura del anuncio, contacte soporte tecnico");
+            }
+    }
+
+
+    public  static void cambiarordenBusbuja(int indiceEliminar) {
+       int resto=alumnos.length - indiceEliminar;
+       int indiceFinal=resto-1;
+        for(int i=0; i<resto;i++){
+            if(i != indiceFinal){
+            alumnos[i]= alumnos[i+1];
+            }else{
+                alumnos[-1] = null;
+            }
+        }
+    }
+
+
+    public  static void cambiarParalelo() {
        System.out.println("Ingrese el rut del alumno");
         String rutIngresado=null; 
        
@@ -138,7 +194,7 @@ public class taller1 {
         }
 
     
-    private static void buscarRUT(String rutIngresado) {
+    public  static void buscarRUT(String rutIngresado) {
        for(int i=0; i<totalCantidadAlumnos; i++){
         if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[3])){
                 System.out.println("Alumno: "+alumnos[i].split(";")[0]+ " "+ alumnos[i].split(";")[1]+ " (actualmente en " +alumnos[i].split(";")[2]+")");
@@ -148,7 +204,7 @@ public class taller1 {
     }
 
 
-    private static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {
+    public  static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {
         
                 int indice=buscarIndiuce(rutIngresado);
                 int contadorLineas=0;
@@ -178,7 +234,7 @@ public class taller1 {
                 }
 
         
-    private static int buscarIndiuce(String rutIngresado) {
+    public  static int buscarIndiuce(String rutIngresado) {
         for(int i=0; i<totalCantidadAlumnos; i++){// hay que serciorsrse de que haya 4 partes con un if
             if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[2])){//
                 return i;
@@ -191,7 +247,7 @@ public class taller1 {
     
 
 
-    private static void inscripcionManual() {
+    public  static void inscripcionManual() {
    
     System.out.println("Inscripcion manual al grupo");
     System.out.println("Como desea inscribir a la persona?");
@@ -210,7 +266,7 @@ public class taller1 {
         }
     }
     
-    private static void inscripcionPorRut() {
+    public  static void inscripcionPorRut() {
         
         System.out.println("Ingrese el RUT del alumno:");
         String rutNuevo=null;
@@ -239,7 +295,7 @@ public class taller1 {
             
         }
 
-    private static void inscripcionPorNombre() {
+    public  static void inscripcionPorNombre() {
         
         System.out.println("Ingrese el nombre del alumno:");
         String nombreNuevo = null;
@@ -283,7 +339,7 @@ public class taller1 {
 
             
         }
-    private static void procesarSolicitudes() {
+    public  static void procesarSolicitudes() {
        
        
        int cantiDuplicados=0;
@@ -383,7 +439,7 @@ public class taller1 {
     }
 
 
-    private static void cargarArchivos() {
+    public  static void cargarArchivos() {
 
         File Archivo = new File("alumnos.txt");
         File Archivo2 = new File("solicitudes.txt");
