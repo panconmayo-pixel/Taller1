@@ -24,7 +24,7 @@ public class taller1 {
     static int totalcantidadDuplicados = 0;
     static int totalcantidadRechazados=0;
     static int totalCantidadAlumnos = 0;
-    static  int contadorReporte=0;
+    static  int contadorReporteCUno=1;
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
@@ -80,13 +80,33 @@ public class taller1 {
     
     private static void generarReporte() {
        
-        System.out.println("Ingrese el tipo de reporte que quiere crear:  \n1) Reporte paralerlo C1  /n ");
+        System.out.println("Ingrese el tipo de reporte que quiere crear:  \n1) Reporte paralerlo C1  \n2) Reporte paralerlo C2 \n3)Reporte sobre los Rechazados  ");
         System.out.println();
-        String seleccion=scanner.nextLine();
+        int seleccion=scanner.nextInt();
+        switch(seleccion){
+            case 1:
+                reporteCUno();
+        }
         
 
         }
     
+
+
+    private static void reporteCUno() {
+        
+        try{
+         String nombreCUno="ReporteC1-V "+contadorReporteCUno+".txt";
+         File file =new File(nombreCUno);
+         if(file.createNewFile()){
+            
+         }
+        }catch(IOException e){
+            System.out.println("Error al ingresar Archivo" + e.getMessage());
+        }
+        
+        
+    }
 
 
     public  static void administracionCurso() {
