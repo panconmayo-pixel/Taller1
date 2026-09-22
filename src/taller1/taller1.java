@@ -23,7 +23,8 @@ public class taller1 {
     static int cantidadSolicitudes = 0;
     static int totalcantidadDuplicados = 0;
     static int totalcantidadRechazados=0;
-     static int totalCantidadAlumnos = 0;
+    static int totalCantidadAlumnos = 0;
+    static  int contadorReporte=0;
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
@@ -65,6 +66,7 @@ public class taller1 {
                     administracionCurso();
 			        break;
 		        case 5:
+                    generarReporte();
 			        break;
 		        case 6:
 			        break;
@@ -76,6 +78,17 @@ public class taller1 {
     }
 
     
+    private static void generarReporte() {
+       
+        System.out.println("Ingrese el tipo de reporte que quiere crear:  \n1) Reporte paralerlo C1  /n ");
+        System.out.println();
+        String seleccion=scanner.nextLine();
+        
+
+        }
+    
+
+
     public  static void administracionCurso() {
        System.out.println("Administracion del curso");
       
