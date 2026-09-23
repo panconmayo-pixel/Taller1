@@ -99,6 +99,21 @@ public class taller1 {
          String nombreCUno="ReporteC1-V "+contadorReporteCUno+".txt";
          File file =new File(nombreCUno);
          if(file.createNewFile()){
+            FileWriter fw= new FileWriter(file);
+            BufferedWriter bw= new BufferedWriter(fw);
+            String titulo="=== Miembros del grupo - Paralelo C1 ===";
+            bw.write(titulo);
+            for(int i=0; i< IngresadosParalelos.length;i++){
+                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
+                    String dato=IngresadosParalelos[i];
+                    bw.write(dato);
+                    bw.newLine();
+                }
+                
+
+            }
+            bw.close();
+            fw.close();
             
          }
         }catch(IOException e){
