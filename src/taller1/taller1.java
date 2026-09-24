@@ -25,6 +25,8 @@ public class taller1 {
     static int totalcantidadRechazados=0;
     static int totalCantidadAlumnos = 0;
     static  int contadorReporteCUno=1;
+    static  int contadorReporteCDos=1;
+    static int  contadorReporteRechazados=1;
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
@@ -69,6 +71,7 @@ public class taller1 {
                     generarReporte();
 			        break;
 		        case 6:
+                    analisisEstadístico();
 			        break;
             }
 
@@ -78,6 +81,67 @@ public class taller1 {
     }
 
     
+    private static void analisisEstadístico() {
+        System.out.println("--- Analisis estadistico ---");
+        System.out.println("Cantidad de alumnos rechazados: "+totalcantidadRechazados+" ("+calcPor()+"%)");
+        System.out.println("Cantidad de solicitudes duplicadas "+totalcantidadDuplicados);
+        String paraleloNumeroso=paraleloMayor();
+        System.out.println("El paralelo con más alumnos es: "+paraleloNumeroso);
+
+    }
+
+
+    private static String paraleloMayor() {
+        String paralelomayor=null;
+        //String[] C1=new String[100];
+        //String[] C2=new String[100];
+        int contadorC1=0;
+        int contadorC2=0;
+        String paralelo=null;
+        for (int i = 0; i < alumnos.length; i++) {
+            if(alumnos[i]!=null){
+             paralelo=alumnos[i].split(";")[3];
+            
+            if(paralelo.equalsIgnoreCase("C1")){
+                contadorC1++;
+            }else{
+                if(paralelo.equalsIgnoreCase("C2")){
+                    contadorC2++;
+                }
+            }
+            }
+        }
+        if(contadorC1>contadorC2){
+            paralelomayor="el paralelo C1 tiene más alumnos ";
+            return paralelomayor;
+            
+        }else {
+            if(contadorC1<contadorC2){
+                paralelomayor="el paralelo C2 tiene más alumnos ";
+                return paralelomayor;
+            }else{
+                System.out.println(contadorC1);
+                System.out.println(contadorC2);
+                 paralelomayor="Ambos valores son iguales";
+
+            }
+        }
+
+        //String mensajeDefault="No hay resultados concluyentes";
+        return paralelomayor;
+    }
+
+
+    private static float calcPor() {
+        String rechazados=""+totalcantidadRechazados;
+        float prom=Float.parseFloat(rechazados)/cantidadSolicitudes;
+        prom =prom *100;
+
+        return prom;
+        
+    }
+
+
     private static void generarReporte() {
        
         System.out.println("Ingrese el tipo de reporte que quiere crear:  \n1) Reporte paralerlo C1  \n2) Reporte paralerlo C2 \n3)Reporte sobre los Rechazados  ");
@@ -86,11 +150,82 @@ public class taller1 {
         switch(seleccion){
             case 1:
                 reporteCUno();
+            case 2:
+                reporteCDos();
+                break;
+            case 3:
+                reporteRechazados();
+                break;
         }
         
 
         }
     
+
+
+    private static void reporteRechazados() {
+        try{
+         String Rechazados="Rechazados-V "+contadorReporteRechazados+".txt";
+         File file =new File(Rechazados);
+         if(file.createNewFile()){
+            FileWriter fw= new FileWriter(file);
+            BufferedWriter bw= new BufferedWriter(fw);
+            String titulo="=== Miembros del grupo - Paralelo C2 ===";
+            bw.write(titulo);
+            for(int i=0; i< IngresadosParalelos.length;i++){
+                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
+                    String dato=IngresadosParalelos[i];
+                    bw.write(dato);
+                    bw.newLine();
+                }
+                
+
+            }
+            contadorReporteRechazados++;
+            bw.close();
+            fw.close();
+                     
+            
+         }
+        }catch(IOException e){
+            System.out.println("Error al ingresar Archivo" + e.getMessage());
+        }
+        
+        
+    }
+
+
+    private static void reporteCDos() {
+      try{
+         String nombreCDos="ReporteC2-V "+contadorReporteCDos+".txt";
+         File file =new File(nombreCDos);
+         if(file.createNewFile()){
+            FileWriter fw= new FileWriter(file);
+            BufferedWriter bw= new BufferedWriter(fw);
+            String titulo="=== Miembros del grupo - Paralelo C2 ===";
+            bw.write(titulo);
+            for(int i=0; i< IngresadosParalelos.length;i++){
+                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
+                    String dato=IngresadosParalelos[i];
+                    bw.write(dato);
+                    bw.newLine();
+                }
+                
+
+            }
+            contadorReporteCDos++;
+            bw.close();
+            fw.close();
+                     
+            
+         }
+        }catch(IOException e){
+            System.out.println("Error al ingresar Archivo" + e.getMessage());
+        }
+        
+        
+        
+    }
 
 
     private static void reporteCUno() {
@@ -112,13 +247,16 @@ public class taller1 {
                 
 
             }
+            contadorReporteCUno++;
             bw.close();
             fw.close();
+                     
             
          }
         }catch(IOException e){
             System.out.println("Error al ingresar Archivo" + e.getMessage());
         }
+        
         
         
     }
