@@ -1,35 +1,51 @@
 package taller1;
 
-import java.util.Scanner;
-
 import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.io.FileWriter;
-import java.io.IOException;
+import java.util.Scanner;
+
+
 
 public class taller1 {
-    static Scanner scanner=new Scanner(System.in);
-    static String[] alumnos = new String[100];
-    static String[] solicitudes = new String[100];
-    static String[] IngresadosNombres = new String[100];
-    static String[] IngresadosApelliodos = new String[100];
-    static String[] IngresadosRuts = new String[100];
-    static String[] IngresadosParalelos = new String[100];
-    static String[] RechazadosNombres = new String[100];
-    static String[] RechazadosApellidos = new String[100];
-    static int cantidadAlumnos = 0;
-    static int cantidadSolicitudes = 0;
-    static int totalcantidadDuplicados = 0;
-    static int totalcantidadRechazados=0;
-    static int totalCantidadAlumnos = 0;
-    static  int contadorReporteCUno=1;
-    static  int contadorReporteCDos=1;
-    static int  contadorReporteRechazados=1;
-    public static void main(String[] args) {
+	 static Scanner scanner=new Scanner(System.in);
+	 
+	    static String[] alumnos = new String[100];
+	    static String[] apellidoAlumno= new String[100];
+	    static String[] rutAlumno = new String[100];
+	    static String[] paraleloAlumno = new String[100];
+	    
+	    static String[] alumnosSolicitudes = new String[100];
+	    static String[] apellidoSolicitudes = new String[100];
+	    static String[] solicitudes = new String[100];
+	    
+	
+	    static String[] IngresadosNombres = new String[100];
+	    static String[] IngresadosApellidos = new String[100];
+	    static String[] IngresadosRuts = new String[100];
+	    static String[] IngresadosParalelos = new String[100];
+	   
+	    static String[] RechazadosNombres = new String[100];
+	    static String[] RechazadosApellidos = new String[100];
+	    
+	    
+	    
+	    static int cantidadIngresados = 0;
+	    static int cantidadRechazados = 0;
+	    static boolean solicitudesProcesadas = false;
+	    static int cantidadAlumnos = 0;
+	    static int cantidadSolicitudes = 0;
+	    static int totalcantidadDuplicados = 0;
+	    static int totalCantidadAlumnos = 0;
+	    static  int contadorReporteCUno=1;
+	    static  int contadorReporteCDos=1;
+	    static int  contadorReporteRechazados=1;
 
-        Scanner s = new Scanner(System.in);
+	        
+	public static void main(String[] args) {
+		Scanner s = scanner;
         int opcion;
 
         do {
@@ -43,16 +59,20 @@ public class taller1 {
             System.out.println("7) Salir");
             System.out.println("Selecciona una opcion: ");
 
-            opcion = s.nextInt();
-            s.nextLine();
+            String opcionTexto = s.nextLine();
+
             try {
-			
-			if(opcion>7 || opcion<0) {
-			throw new IOException("opcion invalida, intente denuevo");	
-			}
-		}catch(IOException  e){
-			System.out.println(e.getMessage());	
-		}
+                opcion = Integer.parseInt(opcionTexto);
+
+                if(opcion < 1 || opcion > 7) {
+                    System.out.println("Opcion invalida, intente nuevamente.");
+                    opcion = 0;
+                }
+
+            } catch(Exception e) {
+                System.out.println("Debe ingresar un numero.");
+                opcion = 0;
+            }
             switch (opcion) {
 
                 case 1:
@@ -68,88 +88,35 @@ public class taller1 {
                     administracionCurso();
 			        break;
 		        case 5:
-                    generarReporte();
+		        	 generarReporte();
 			        break;
 		        case 6:
-                    analisisEstadístico();
+		        	analisisEstadistico ();
 			        break;
+		        case 7:
+		        	System.out.println("Saliendo....");
             }
 
         } while (opcion != 7);
-
         s.close();
     }
 
-    
-    private static void analisisEstadístico() {
-        System.out.println("--- Analisis estadistico ---");
-        System.out.println("Cantidad de alumnos rechazados: "+totalcantidadRechazados+" ("+calcPor()+"%)");
-        System.out.println("Cantidad de solicitudes duplicadas "+totalcantidadDuplicados);
-        String paraleloNumeroso=paraleloMayor();
-        System.out.println("El paralelo con más alumnos es: "+paraleloNumeroso);
-
-    }
-
-
-    private static String paraleloMayor() {
-        String paralelomayor=null;
-        //String[] C1=new String[100];
-        //String[] C2=new String[100];
-        int contadorC1=0;
-        int contadorC2=0;
-        String paralelo=null;
-        for (int i = 0; i < alumnos.length; i++) {
-            if(alumnos[i]!=null){
-             paralelo=alumnos[i].split(";")[3];
-            
-            if(paralelo.equalsIgnoreCase("C1")){
-                contadorC1++;
-            }else{
-                if(paralelo.equalsIgnoreCase("C2")){
-                    contadorC2++;
-                }
-            }
-            }
-        }
-        if(contadorC1>contadorC2){
-            paralelomayor="el paralelo C1 tiene más alumnos ";
-            return paralelomayor;
-            
-        }else {
-            if(contadorC1<contadorC2){
-                paralelomayor="el paralelo C2 tiene más alumnos ";
-                return paralelomayor;
-            }else{
-                System.out.println(contadorC1);
-                System.out.println(contadorC2);
-                 paralelomayor="Ambos valores son iguales";
-
-            }
-        }
-
-        //String mensajeDefault="No hay resultados concluyentes";
-        return paralelomayor;
-    }
-
-
-    private static float calcPor() {
-        String rechazados=""+totalcantidadRechazados;
-        float prom=Float.parseFloat(rechazados)/cantidadSolicitudes;
-        prom =prom *100;
-
-        return prom;
-        
-    }
-
-
-    private static void generarReporte() {
-       
-        System.out.println("Ingrese el tipo de reporte que quiere crear:  \n1) Reporte paralerlo C1  \n2) Reporte paralerlo C2 \n3)Reporte sobre los Rechazados  ");
+	
+	public static void generarReporte() {
+		
+		System.out.println("Ingrese el tipo de reporte que quiere crear:  \n1) Reporte paralerlo C1  \n2) Reporte paralerlo C2 \n3)Reporte sobre los Rechazados  ");
         System.out.println();
-        int seleccion=scanner.nextInt();
+        String selec=scanner.nextLine();
+        int seleccion=Integer.parseInt(selec);
+        while(seleccion !=1 && seleccion !=2  && seleccion !=3){
+        	   	System.out.println("Opcion invalida, ingrese nuevamente");	
+        	   	seleccion=scanner.nextInt();
+        	   	
+           }
         switch(seleccion){
             case 1:
                 reporteCUno();
+                break;
             case 2:
                 reporteCDos();
                 break;
@@ -157,128 +124,170 @@ public class taller1 {
                 reporteRechazados();
                 break;
         }
-        
+		
+	}
 
+
+	public static void reporteRechazados() {
+		try{
+			System.out.println("Ingreso rechazo");
+	         String Rechazados="Rechazados-V "+contadorReporteRechazados+".txt";
+	         File file =new File(Rechazados);
+	         if(file.createNewFile()){
+	            FileWriter fw= new FileWriter(file);
+	            BufferedWriter bw= new BufferedWriter(fw);
+	            String titulo="=== Miembros del grupo - Rechazados ===";
+	            bw.write(titulo);
+	            bw.newLine();
+	            for(int i=0; i< cantidadRechazados;i++){
+	                if(RechazadosNombres[i] != null){
+	                    String dato=""+RechazadosNombres[i]+";"+RechazadosApellidos[i];
+	                    bw.write(dato);
+	                    bw.newLine();
+	                	}
+	            	
+
+	            }
+	            contadorReporteRechazados++;
+	            bw.close();
+	            fw.close();
+	                     
+	            
+	         }else{
+	            	System.out.println("Archivo"+Rechazados+" ya creado");
+	            }
+	        }catch(Exception e){
+	            System.out.println("Error al ingresar Archivo" + e.getMessage());
+	        }
+		
+	}
+
+
+	public static void reporteCDos() {
+		
+		
+		try{
+	         String nombreCDos="ReporteC2-V "+contadorReporteCDos+".txt";
+	         File file =new File(nombreCDos);
+	         if(file.createNewFile()){
+	            FileWriter fw= new FileWriter(file);
+	            BufferedWriter bw= new BufferedWriter(fw);
+	            String titulo="=== Miembros del grupo - Paralelo C2 ===";
+	            bw.write(titulo);
+	            bw.newLine();
+	            for(int i=0; i< cantidadIngresados;i++){
+	            	
+	                if(IngresadosParalelos[i].equalsIgnoreCase("C2")){
+	                    String dato=""+IngresadosNombres[i]+";"+IngresadosApellidos[i]+";"+IngresadosRuts[i]+";"+IngresadosParalelos[i];
+	                    bw.write(dato);
+	                    bw.newLine();
+	                		}
+	                
+	            		}
+	            	
+	            contadorReporteCDos++;
+	            bw.close();
+	            fw.close();
+	                     
+	            
+	         }else{
+	            	System.out.println("Archivo "+nombreCDos+" ya creado");
+	            }
+	        }catch(Exception e){
+	            System.out.println("Error al ingresar Archivo" + e.getMessage());
+	        }
+		
+	}
+
+
+	public static void reporteCUno() {
+		
+		
+		 try{
+	         String nombreCUno="ReporteC1-V "+contadorReporteCUno+".txt";
+	         File file =new File(nombreCUno);
+	         if (file.createNewFile()) {
+		         FileWriter fw = new FileWriter(file);
+		         BufferedWriter bw= new BufferedWriter(fw);
+		         String titulo="=== Miembros del grupo - Paralelo C1 ===";
+		         bw.write(titulo);
+		         bw.newLine();
+		         for(int i=0; i< cantidadIngresados;i++){
+		            	 
+		                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
+		                    String dato=""+IngresadosNombres[i]+";"+IngresadosApellidos[i]+";"+IngresadosRuts[i]+";"+IngresadosParalelos[i];
+		                    System.out.println(dato);
+		                    bw.write(dato);
+		                    bw.newLine();
+		                	}
+		            
+	         }
+	         contadorReporteCUno++;
+	         bw.close();
+	         fw.close();
+	         }else {
+	            	System.out.println("Archivo"+nombreCUno+" ya creado");
+	        
+	         }
+	        }catch(Exception e){
+	            System.out.println("Error al ingresar Archivo" + e.getMessage());
+	        }
+	}
+	        
+		
+	
+
+
+	public  static void analisisEstadistico () {
+		System.out.println("Analisis estadistico rechazados y admitidos ");
+		if (cantidadSolicitudes == 0) {
+            System.out.println("No hay solicitudes cargadas.");
+            return;
         }
-    
+		
+		double porcentajeRechazo = ((double)cantidadRechazados / cantidadSolicitudes) * 100;
+		double tasaAdmision = ((double)cantidadIngresados / cantidadSolicitudes) * 100;
+		int cantidadC1 = 0;
+	    int cantidadC2 = 0;
 
+		    for(int i=0; i<cantidadAlumnos; i++) {
+		        if(paraleloAlumno[i].equalsIgnoreCase("C1")) {
+		            cantidadC1++;
+		        }
+		        if(paraleloAlumno[i].equalsIgnoreCase("C2")) {
+		            cantidadC2++;
+		        }
+		    }
+		    double porcentajeC1 = ((double)cantidadC1 / cantidadAlumnos) * 100;
+		    double porcentajeC2 = ((double)cantidadC2 / cantidadAlumnos) * 100;
 
-    private static void reporteRechazados() {
-        try{
-         String Rechazados="Rechazados-V "+contadorReporteRechazados+".txt";
-         File file =new File(Rechazados);
-         if(file.createNewFile()){
-            FileWriter fw= new FileWriter(file);
-            BufferedWriter bw= new BufferedWriter(fw);
-            String titulo="=== Miembros del grupo - Paralelo C2 ===";
-            bw.write(titulo);
-            for(int i=0; i< IngresadosParalelos.length;i++){
-                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
-                    String dato=IngresadosParalelos[i];
-                    bw.write(dato);
-                    bw.newLine();
-                }
-                
-
-            }
-            contadorReporteRechazados++;
-            bw.close();
-            fw.close();
-                     
-            
-         }
-        }catch(IOException e){
-            System.out.println("Error al ingresar Archivo" + e.getMessage());
-        }
-        
-        
-    }
-
-
-    private static void reporteCDos() {
-      try{
-         String nombreCDos="ReporteC2-V "+contadorReporteCDos+".txt";
-         File file =new File(nombreCDos);
-         if(file.createNewFile()){
-            FileWriter fw= new FileWriter(file);
-            BufferedWriter bw= new BufferedWriter(fw);
-            String titulo="=== Miembros del grupo - Paralelo C2 ===";
-            bw.write(titulo);
-            for(int i=0; i< IngresadosParalelos.length;i++){
-                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
-                    String dato=IngresadosParalelos[i];
-                    bw.write(dato);
-                    bw.newLine();
-                }
-                
-
-            }
-            contadorReporteCDos++;
-            bw.close();
-            fw.close();
-                     
-            
-         }
-        }catch(IOException e){
-            System.out.println("Error al ingresar Archivo" + e.getMessage());
-        }
-        
-        
-        
-    }
-
-
-    private static void reporteCUno() {
-        
-        try{
-         String nombreCUno="ReporteC1-V "+contadorReporteCUno+".txt";
-         File file =new File(nombreCUno);
-         if(file.createNewFile()){
-            FileWriter fw= new FileWriter(file);
-            BufferedWriter bw= new BufferedWriter(fw);
-            String titulo="=== Miembros del grupo - Paralelo C1 ===";
-            bw.write(titulo);
-            for(int i=0; i< IngresadosParalelos.length;i++){
-                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
-                    String dato=IngresadosParalelos[i];
-                    bw.write(dato);
-                    bw.newLine();
-                }
-                
-
-            }
-            contadorReporteCUno++;
-            bw.close();
-            fw.close();
-                     
-            
-         }
-        }catch(IOException e){
-            System.out.println("Error al ingresar Archivo" + e.getMessage());
-        }
-        
-        
-        
-    }
-
-
+		    System.out.println("Porcentaje de rechazo: " + porcentajeRechazo + "%");
+		    System.out.println("Tasa de admision: " + tasaAdmision + "%");	    
+		    System.out.println("Porcentaje de alumnos en C1: " + porcentajeC1 + "%");
+		    System.out.println("Porcentaje de alumnos en C2: " + porcentajeC2 + "%");
+		}
+	
     public  static void administracionCurso() {
+    	
        System.out.println("Administracion del curso");
-      
-       System.out.println("Seleccione opcion:");
+       System.out.println("Seleccione una  opcion:");
        System.out.println("1) Cambiar paralelo de un alumno");
        System.out.println("2) Eliminar alumno del curso");
        System.out.println("3) Inscribir alumno nuevo");
        System.out.println("4) Volver al menu principal");
-       int opcionEntera=0;
-       System.out.println("Ingrese opcion:");
+       
+       System.out.println("Ingrese opcion: ");
        String  opcion=scanner.nextLine();
-       while(!opcion.equalsIgnoreCase("1")||!opcion.equalsIgnoreCase("2") || !opcion.equalsIgnoreCase("3")){
-        System.out.println("Opcion invalida, ingrese nuevamente");
-        opcion=scanner.nextLine();
-        opcionEntera=Integer.parseInt(opcion);
-
+       
+       while(!opcion.equalsIgnoreCase("1") && !opcion.equalsIgnoreCase("2") 
+    		&& !opcion.equalsIgnoreCase("3") && !opcion.equalsIgnoreCase("4")){
+    	   	System.out.println("Opcion invalida, ingrese nuevamente");	
+    	   	opcion=scanner.nextLine();
+    	   	
        }
+       
+       int opcionEntera = Integer.parseInt(opcion);
+       
        switch(opcionEntera){
         case 1:
             cambiarParalelo();
@@ -289,365 +298,491 @@ public class taller1 {
         case 3:
             agregarAlumno();
             break;
-       default:
-            break;
+        case 4:
+        	break; 
        }
     }
+    
 
-
-    private static void agregarAlumno() {
+    public static void agregarAlumno() {
         System.out.println("Ingresar alumnos");
-        System.out.println("Ingrese el nombre del nuevo alumno");
-        String nombreNuevo=scanner.nextLine();
-        System.out.println("Ingrese el apellido del estudiante");
-        String apellidoNuevo=scanner.nextLine();
-        System.out.println("Ingrese el rut del nuevo alumno");
-        String rutNuevo=scanner.nextLine();
-        System.out.println("ingrese el paralelo (C1/C2) del nuevo alumno");
-    }
-
-
-    private static void eliminarAlumnoCurso() {
-        System.out.println("Ingrese el rut del alumno que desee eliminar.");
-        String rutEliminar=null; 
-        try{
-        rutEliminar=scanner.nextLine();
-        throw new IOException("opcion invalida, intente denuevo");
-
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-
+        
+        if(cantidadAlumnos >= 100) {
+        	System.out.println("No se pueden agregar mas alumnos,supero la capacidad maxima admitida");
+        	return;
         }
-         int indiceEliminar=buscarIndiuce(rutEliminar);
-         eliminar(indiceEliminar);
-    }
-
-
-    
-
-
-    public  static void eliminar(int indiceEliminar) {
-       alumnos[indiceEliminar]=null;
-       cambiarordenBusbuja(indiceEliminar);
-       sobreescribirLista();
-        } 
-    
-    
-   
-
-
-    public  static void cambiarordenBusbuja(int indiceEliminar) {
-       int resto=alumnos.length - indiceEliminar;
-       int indiceFinal=resto-1;
-        for(int i=0; i<resto;i++){
-            if(i != indiceFinal){
-            alumnos[i]= alumnos[i+1];
-            }else{
-                alumnos[-1] = null;
+        
+        System.out.println("Ingrese el nombre del nuevo alumno: ");
+        String nombreNuevo = scanner.nextLine();
+        while(nombreNuevo.equals("")) {
+            System.out.println("El nombre no puede estar vacio.");
+            System.out.println("Ingrese nuevamente el nombre:");
+            nombreNuevo = scanner.nextLine();
+        }
+        
+        System.out.println("Ingrese el apellido del estudiante: ");
+        String apellidoNuevo=scanner.nextLine();
+        while(apellidoNuevo.equals("")) { 
+            System.out.println("El apellido no puede estar vacio.");
+            System.out.println("Ingrese nuevamente el apellido:");
+            apellidoNuevo = scanner.nextLine();
+        }
+        
+        System.out.println("Ingrese el rut del nuevo alumno: ");
+        String rutNuevo=scanner.nextLine();
+        while(rutNuevo.equals("")) { 
+            System.out.println("El rut no puede estar vacio.");
+            System.out.println("Ingrese nuevamente el rut:");
+            rutNuevo = scanner.nextLine();
+        }
+        
+        for(int i=0; i<cantidadAlumnos; i++) {
+            if(rutNuevo.equalsIgnoreCase(rutAlumno[i])) {
+                System.out.println("Ese RUT ya pertenece a un alumno.");
+                return;
             }
         }
+        System.out.println("ingrese el paralelo (C1/C2) del nuevo alumno: ");
+        String paraleloNuevo = scanner.nextLine();
+        while(!paraleloNuevo.equalsIgnoreCase("C1") &&
+                !paraleloNuevo.equalsIgnoreCase("C2")) {
+
+              System.out.println("Paralelo invalido solo puede ser C1 o C2.");
+              System.out.println("Ingrese nuevamente el paralelo:");
+              paraleloNuevo = scanner.nextLine();
+          }
+        alumnos[cantidadAlumnos] = nombreNuevo; 
+        apellidoAlumno[cantidadAlumnos] = apellidoNuevo; 
+        rutAlumno[cantidadAlumnos] = rutNuevo; 
+        paraleloAlumno[cantidadAlumnos] = paraleloNuevo; 
+        cantidadAlumnos++;
+        sobreescribirLista(); 
+        System.out.println("Alumno agregado correctamente.");
     }
 
 
+    public static void eliminarAlumnoCurso() {
+        System.out.println("Ingrese el rut del alumno que desee eliminar.");
+        String rutEliminar = scanner.nextLine();
+        
+        int indiceEliminar = buscarIndiuce(rutEliminar);
+        if(indiceEliminar == -1) {
+        	System.out.println("No se encontro un alumno con ese rut");
+            return;
+        }
+        eliminar(indiceEliminar);
+        }
+    
+    public static void eliminar(int indiceEliminar) {
+        String rutEliminado = rutAlumno[indiceEliminar];
+        
+        for(int i = 0; i < cantidadIngresados; i++) {
+            if(rutEliminado.equalsIgnoreCase(IngresadosRuts[i])) {
+                for(int j = i; j < cantidadIngresados - 1; j++) {
+                    IngresadosNombres[j] = IngresadosNombres[j + 1];
+                    IngresadosApellidos[j] = IngresadosApellidos[j + 1];
+                    IngresadosRuts[j] = IngresadosRuts[j + 1];
+                    IngresadosParalelos[j] = IngresadosParalelos[j + 1];
+                }
+                IngresadosNombres[cantidadIngresados - 1] = null;
+                IngresadosApellidos[cantidadIngresados - 1] = null;
+                IngresadosRuts[cantidadIngresados - 1] = null;
+                IngresadosParalelos[cantidadIngresados - 1] = null;
+
+                cantidadIngresados --;
+                break;
+            }
+        }
+        alumnos[indiceEliminar] = null;
+        cambiarordenBusbuja(indiceEliminar);
+        sobreescribirLista();
+
+        System.out.println("Alumno eliminado correctamente.");
+    }
+    
+    public static void cambiarordenBusbuja(int indiceEliminar) {
+
+        for(int i=indiceEliminar; i<cantidadAlumnos-1; i++){
+
+            alumnos[i] = alumnos[i+1];
+            apellidoAlumno[i] = apellidoAlumno[i+1];
+            rutAlumno[i] = rutAlumno[i+1];
+            paraleloAlumno[i] = paraleloAlumno[i+1];
+
+        }
+
+        alumnos[cantidadAlumnos-1] = null;
+        apellidoAlumno[cantidadAlumnos-1] = null;
+        rutAlumno[cantidadAlumnos-1] = null;
+        paraleloAlumno[cantidadAlumnos-1] = null;
+
+        cantidadAlumnos--;
+    }
+    
+
     public  static void cambiarParalelo() {
-       System.out.println("Ingrese el rut del alumno");
-        String rutIngresado=null; 
+       System.out.println("Ingrese el rut del alumno: ");
+       String rutIngresado = scanner.nextLine();
        
-        try{
-        rutIngresado=scanner.nextLine();
-        throw new IOException ("Invalido. Ingrese valores válidos:");
-       }catch(IOException  e){
-        System.out.println(e.getMessage());
+       int indice = buscarIndiuce(rutIngresado);
+
+       if(indice == -1) {
+           System.out.println("No se encontro un alumno con ese RUT.");
+           return;
        }
        
-            buscarRUT(rutIngresado);
-            
-       
-       
+       buscarRUT(rutIngresado);
        String paraleloNuev=null;
 
        while (paraleloNuev==null || !paraleloNuev.equalsIgnoreCase("C1") && !paraleloNuev.equalsIgnoreCase("C2") ) {
             System.out.println("Nuevo paralelo (C1/C2):  ");
-            try{
             paraleloNuev=scanner.nextLine();
-            throw new IOException("Paralelo inválido");
-            }catch(IOException e){
-                System.out.println(e.getMessage());
-                }
-        
+            
+            if (!paraleloNuev.equalsIgnoreCase("C1") &&
+                    !paraleloNuev.equalsIgnoreCase("C2")) {
+            	System.out.println("Paralelo invalido");
             }
-            cambiarParaleloEfectivo(paraleloNuev,rutIngresado);
-            sobreescribirLista();
         }
-
+        cambiarParaleloEfectivo(paraleloNuev,rutIngresado);
+        sobreescribirLista();
+        System.out.println("Paralelo cambiado correctamente.");
+        }
     
-    public  static void buscarRUT(String rutIngresado) {
-       for(int i=0; i<totalCantidadAlumnos; i++){
-        if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[3])){
-                System.out.println("Alumno: "+alumnos[i].split(";")[0]+ " "+ alumnos[i].split(";")[1]+ " (actualmente en " +alumnos[i].split(";")[2]+")");
-                
-            }
-       }
-    }
+    public static void buscarRUT(String rutIngresado) {
 
+        int indice = buscarIndiuce(rutIngresado);
+
+        if(indice != -1) {
+
+            System.out.println("Alumno: " + alumnos[indice] + " "
+                    + apellidoAlumno[indice]
+                    + " (actualmente en "
+                    + paraleloAlumno[indice] + ")");
+
+        }
+    }
 
     public  static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {
-        
                 int indice=buscarIndiuce(rutIngresado);
-                
-                alumnos[indice]=alumnos[indice].split(";")[0]+ " "+alumnos[indice].split(";")[1]+";"+alumnos[indice].split(";")[2]+";"+paraleloNuev;
-                // si ya esta admitido actualizar;
-    }
-                
+                if(indice == -1) {
+                    System.out.println("No se encontro un alumno con ese rut");
+                    return;
+                }
+                paraleloAlumno[indice] = paraleloNuev;
+                for(int i=0; i<cantidadIngresados; i++) {
+                    if(rutIngresado.equalsIgnoreCase(IngresadosRuts[i])) {
+                        IngresadosParalelos[i] = paraleloNuev;
+                        break;
+                    }
+                }
+            }
+              
 
         
     public  static int buscarIndiuce(String rutIngresado) {
-        for(int i=0; i<totalCantidadAlumnos; i++){// hay que serciorsrse de que haya 4 partes con un if
-            if(rutIngresado.equalsIgnoreCase(alumnos[i].split(";")[2])){//
-                return i;
-            }
-            
-        }
-        return 0;//mejor devolver un -1
-        
-    }
+		for(int i=0; i< cantidadAlumnos; i++){
+			if(rutIngresado.equalsIgnoreCase(rutAlumno[i])){
+	            return i;
+	        }
+			
+	    }
+	    return -1;
+	}
     
+    public static void inscripcionManual() {
+        System.out.println("Inscripcion manual al grupo");
+        System.out.println("Como desea inscribir a la persona?");
+        System.out.println("1) Por nombre completo");
+        System.out.println("2) Por RUT");
+        System.out.println("Ingrese opcion:");
 
+        String opcionT = scanner.nextLine();
+        int opcion;
 
-    public  static void inscripcionManual() {
-   
-    System.out.println("Inscripcion manual al grupo");
-    System.out.println("Como desea inscribir a la persona?");
-    System.out.println("1) Por nombre completo");
-    System.out.println("2) Por RUT");
-    System.out.println("Ingrese opcion:");
-    int opcion=scanner.nextInt();
-    while(opcion<1||opcion>2){
-        System.out.println("Opcion invalida, ingrese nuevamente");
-        opcion=scanner.nextInt();
-    }
-    if(opcion==1){
-        inscripcionPorNombre();
-        }else{
-        inscripcionPorRut();
+        try {
+            opcion = Integer.parseInt(opcionT);
+
+            while(opcion < 1 || opcion > 2) {
+                System.out.println("Opcion invalida, ingrese nuevamente");
+                opcionT = scanner.nextLine();
+                opcion = Integer.parseInt(opcionT);
+            }
+        } catch(Exception e) {
+            System.out.println("Debe ingresar un numero.");
+            return;
+        }
+        if(opcion == 1) {
+            inscripcionPorNombre();
+        } else {
+            inscripcionPorRut();
         }
     }
     
     public  static void inscripcionPorRut() {
-        
+       
         System.out.println("Ingrese el RUT del alumno:");
         String rutNuevo=null;
         try{
             rutNuevo=scanner.nextLine();
-            throw new Exception("Error al ingresar el RUT");
+            
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }
+        	boolean existe = false;
+        	
+        	if(cantidadIngresados >= 100) {
+        	    System.out.println("No se pueden ingresar mas alumnos al grupo.");
+        	    return;
+        	}
             for(int i=0;i<cantidadAlumnos;i++){
-                if(rutNuevo.equalsIgnoreCase(alumnos[i].split(";")[2])){
-                System.out.println("Solicitud de "+alumnos[i].split(";")[0]+" "+alumnos[i].split(";")[1]+" -> admitido en "+alumnos[i].split(";")[3]);
+            	
+            	 if(alumnoYaIngresado(rutNuevo)) {
+            	        System.out.println("El alumno ya ha sido ingresado al grupo.");
+            	        existe = true;
+            	        break;
+            	    }
+                if(rutNuevo.equalsIgnoreCase(rutAlumno[i])) {
+                System.out.println("Solicitud de "+ alumnos [i]  +" "+apellidoAlumno[i]+" -> admitido en "+ paraleloAlumno[i]);
                 System.out.println("Es alumno ingresar al grupo");
-                IngresadosNombres[cantidadAlumnos]=alumnos[i].split(";")[0];
-                IngresadosApelliodos[cantidadAlumnos]=alumnos[i].split(";")[1];
-                IngresadosRuts[cantidadAlumnos]=alumnos[i].split(";")[2];
+                IngresadosNombres[cantidadIngresados]=alumnos[i];
+                IngresadosApellidos[cantidadIngresados]=apellidoAlumno[i];
+                IngresadosRuts[cantidadIngresados]=rutAlumno[i];
+                IngresadosParalelos[cantidadIngresados] = paraleloAlumno[i];
+                
+                cantidadIngresados ++;
+                existe = true;
                 break;
-                    }else{
-                        System.out.println("El rut "+rutNuevo+" no pertenece a ningun alumno");
-                        System.out.println("No tenemos su nombre, por lo que se registrara solo el RUT en los rechazados.");
-                        RechazadosNombres[totalcantidadRechazados]="Desconocido solo se dispone del RUT";
-                        RechazadosApellidos[totalcantidadRechazados]="Desconocido solo se dispone del RUT";
-                        totalcantidadRechazados++;
-                    }
+                }
             }
-            
+            if (!existe) {
+                    System.out.println("El rut "+rutNuevo+" no pertenece a ningun alumno");
+                    System.out.println("No tenemos su nombre, por lo que se registrara solo el RUT en los rechazados.");
+                    RechazadosNombres[cantidadRechazados]="Desconocido solo se dispone del RUT";
+                    RechazadosApellidos[cantidadRechazados]=rutNuevo;
+                    cantidadRechazados++;
+                }
         }
-
-    public  static void inscripcionPorNombre() {
+            
         
+
+    public static void inscripcionPorNombre() {
+
         System.out.println("Ingrese el nombre del alumno:");
         String nombreNuevo = null;
-        String apellidoNuevo=null;
-        try{
-            nombreNuevo=scanner.nextLine();
-            System.out.println("Ingrese el apellido que quiere ingersar: ");
-            apellidoNuevo=scanner.nextLine();
-            throw new Exception("Error al ingresar el nombre o apellido");// se cambia por que siomepre aparece; hay que cambiar 
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            boolean yaExiste=false;
-            for(int i=0;i<cantidadAlumnos;i++){
-                if(nombreNuevo.equalsIgnoreCase(IngresadosNombres[i]) && apellidoNuevo.equalsIgnoreCase(IngresadosApelliodos[i])){
-                System.out.println("El alumno ya ha sido ingresado al chat");
-                yaExiste=true;
-                break;
-                }
-            }
-            
-            for(int i=0;i<cantidadAlumnos;i++){
-                if(nombreNuevo.equalsIgnoreCase(alumnos[i].split(";")[0]) && apellidoNuevo.equalsIgnoreCase(alumnos[i].split(";")[1])){
-                System.out.println("Solicitud de "+nombreNuevo+" "+apellidoNuevo+" -> admitido en "+alumnos[i].split(";")[3]);
-                System.out.println("Es alumno ingresar al grupo");
-                IngresadosNombres[cantidadAlumnos]=nombreNuevo;
-                IngresadosApelliodos[cantidadAlumnos]=apellidoNuevo;
-                IngresadosRuts[cantidadAlumnos]=alumnos[i].split(";")[2];
-                yaExiste=true;
-                break;
-                    }
-                }
-            if(!yaExiste){
-                System.out.println("El alumno no pertenece a ningun paralelo");}
-                //totalcantidadRechazados
-                RechazadosNombres[totalcantidadRechazados]=nombreNuevo;
-                RechazadosApellidos[totalcantidadRechazados]=apellidoNuevo;
-                totalcantidadRechazados++;
-                System.out.println("[RECHAZO] Solicitud de "+nombreNuevo+" "+apellidoNuevo+"-> no pertenece a ningun paralelo");
-                
+        String apellidoNuevo = null;
 
-            
+        try {
+            nombreNuevo = scanner.nextLine();
+            while(nombreNuevo.equals("")) {
+                System.out.println("El nombre no puede estar vacio.");
+                System.out.println("Ingrese nuevamente el nombre:");
+                nombreNuevo = scanner.nextLine();
+            }
+            System.out.println("Ingrese el apellido que quiere ingersar: ");
+            apellidoNuevo = scanner.nextLine();
+            while(apellidoNuevo.equals("")) {
+                System.out.println("El apellido no puede estar vacio.");
+                System.out.println("Ingrese nuevamente el apellido:");
+                apellidoNuevo = scanner.nextLine();
+            }
+        } catch(Exception e) {
+
+            System.out.println(e.getMessage());
         }
-    public  static void procesarSolicitudes() {
-       
-       
-       int cantiDuplicados=0;
-       int cantidadIngresados=0;
-       int cantidadRechazados=0;
-       
-       for (int i = 0; i < solicitudes.length; i++) { 
-        if(solicitudes[i]!=null){
-        
-        String solNombres= solicitudes[i].split("-")[0];
-        String solApellidos= solicitudes[i].split("-")[1];
-        boolean yaProcesado=false;
-        for (int j = 0; j <cantidadIngresados ; j++){
-            
-            if(IngresadosNombres[j].equalsIgnoreCase(solNombres) && IngresadosApelliodos[j].equalsIgnoreCase(solApellidos)){       
-                yaProcesado=true;
-                System.out.println("[RECHAZO] Solicitud de "+solNombres+" "+solApellidos+"-> ya fue ingresado anteriormente");
+
+        boolean yaExiste = false;
+
+        if(cantidadIngresados >= 100) {
+            System.out.println("No se pueden ingresar mas alumnos al grupo.");
+            return;
+        }
+
+        for(int i=0; i<cantidadIngresados; i++) {
+
+            if(nombreNuevo.equalsIgnoreCase(IngresadosNombres[i]) && 
+                    apellidoNuevo.equalsIgnoreCase(IngresadosApellidos[i])) {
+
+                System.out.println("El alumno ya ha sido ingresado al chat");
+
+                yaExiste = true;
+
                 break;
             }
         }
-        if(yaProcesado == false){
-            
-            for (int j = 0; j < cantidadRechazados; j++) {
-                if(RechazadosNombres[j].equalsIgnoreCase(solNombres) && RechazadosApellidos[j].equalsIgnoreCase(solApellidos)){
-                    yaProcesado=true;
-                    System.out.println("[RECHAZO] Solicitud de "+solNombres+" "+solApellidos+"-> ya fue rechazada anteriormente");
+
+        if (!yaExiste) {
+            for(int i=0; i<cantidadAlumnos; i++) {
+                if(nombreNuevo.equalsIgnoreCase(alumnos[i]) &&
+                        apellidoNuevo.equalsIgnoreCase(apellidoAlumno[i])) {
+                    System.out.println("Solicitud de " + nombreNuevo + " " + apellidoNuevo 
+                            + " -> admitido en el chat");
+                    System.out.println("Es alumno ingresar al grupo");
+                    IngresadosNombres[cantidadIngresados] = nombreNuevo;
+                    IngresadosApellidos[cantidadIngresados] = apellidoNuevo;
+                    IngresadosRuts[cantidadIngresados] = rutAlumno[i];
+                    IngresadosParalelos[cantidadIngresados] = paraleloAlumno[i];
+
+                    cantidadIngresados++;
+
+                    yaExiste = true;
+
                     break;
                 }
             }
-
         }
-        if(yaProcesado == true){
-            cantiDuplicados++;
-            totalcantidadDuplicados++;
-            
-            continue;
-        }
-        boolean esAlumno=false;
-        if (cantidadIngresados==0){
-            primerIngreso(solNombres, solApellidos,esAlumno,cantidadIngresados);
-            cantidadIngresados++;
-            
 
-        }else{
-        
-        for (int j = 0; j < alumnos.length; j++){
-           
-            if(alumnos[j]!=null){
-            String alumnoNombre=alumnos[j].split(";")[0];
-            String alumnoApellido=alumnos[j].split(";")[1];
-            if(alumnoNombre.equalsIgnoreCase(solNombres) && alumnoApellido.equalsIgnoreCase(solApellidos)){
-                IngresadosNombres[cantidadIngresados]=solNombres;
-                IngresadosApelliodos[cantidadIngresados]=solApellidos;
-                IngresadosRuts[cantidadIngresados]=alumnos[j].split(";")[2];
-                IngresadosParalelos[cantidadIngresados]=alumnos[j].split(";")[3];
-
-                cantidadIngresados++;
-                esAlumno=true;
-                System.out.println("Solicitud de "+solNombres+" "+solApellidos+" -> admitido en "+alumnos[j].split(";")[3]);
-                break;
-                    }
-            
-                }
-            }
-        }
-        if(!esAlumno){
-            RechazadosNombres[cantidadRechazados]=solNombres;
-            RechazadosApellidos[cantidadRechazados]=solApellidos;
+        if(!yaExiste) {
+            System.out.println("El alumno no pertenece a ningun paralelo");
+            RechazadosNombres[cantidadRechazados] = nombreNuevo;
+            RechazadosApellidos[cantidadRechazados] = apellidoNuevo;
             cantidadRechazados++;
-            totalcantidadRechazados++;
-            System.out.println("[RECHAZO] Solicitud de "+solNombres+" "+solApellidos+"-> no pertenece a ningun paralelo");
-                }
-
+            System.out.println("Rechazado Solicitud de " + nombreNuevo + " " 
+                    + apellidoNuevo + "-> no pertenece a ningun paralelo");
+        }
+    }
+    
+    public static boolean alumnoYaIngresado(String rut) {
+        for(int i = 0; i < cantidadIngresados; i++) {
+            if(rut.equalsIgnoreCase(IngresadosRuts[i])) {
+                return true;
             }
         }
-        System.out.println("Resumen del procesamiento de solicitudes: "+cantidadIngresados+" ingresados/"+cantidadRechazados+" rechazados" );
-
-       
-       
-        // Aquí puedes agregar la lógica para procesar las solicitudes
+        return false;
     }
-        
     
-    public static void primerIngreso(String solNombres, String solApellidos, boolean esAlumno, int cantidadIngresados) {
-       String alumnoNombre=alumnos[0].split(";")[0];
-            String alumnoApellido=alumnos[0].split(";")[1];
-            if(alumnoNombre.equalsIgnoreCase(solNombres) && alumnoApellido.equalsIgnoreCase(solApellidos)){
-                IngresadosNombres[cantidadIngresados]=solNombres;
-                IngresadosApelliodos[cantidadIngresados]=solApellidos;
-                IngresadosRuts[cantidadIngresados]=alumnos[0].split(";")[2];
-                IngresadosParalelos[cantidadIngresados]=alumnos[0].split(";")[3];
+    public static void procesarSolicitudes() {
 
-                cantidadIngresados++;
-                esAlumno=true;
-                System.out.println("Solicitud de "+solNombres+" "+solApellidos+" -> admitido en "+alumnos[0].split(";")[3]);
-            }
-    }
+        if(solicitudesProcesadas) {
+            System.out.println("Las solicitudes ya fueron procesadas.");
+            return;
+        }
+
+        totalcantidadDuplicados = 0;
+        boolean encontrado;
+      
+       for (int i  = 0; i < cantidadSolicitudes;i ++) {
+    	   encontrado = false;
+       
+    	   for (int j = 0; j < cantidadAlumnos; j ++)  {
+    		   if (alumnos[j].equalsIgnoreCase(alumnosSolicitudes[i])
+    				    && apellidoAlumno[j].equalsIgnoreCase(apellidoSolicitudes[i])) {
+
+    				    encontrado = true;
+
+    				    if(alumnoYaIngresado (rutAlumno[j])) {
+    				    	totalcantidadDuplicados ++;
+
+    				    } else {
+    				    	
+    				    	if(cantidadIngresados >= 100) {
+    				    	    System.out.println("Se alcanzo la capacidad maxima en el  grupo");
+    				    	    break;
+    				    	}
+    				        IngresadosNombres[cantidadIngresados] = alumnosSolicitudes[i];
+    				        IngresadosApellidos[cantidadIngresados] = apellidoSolicitudes[i];
+    				        IngresadosRuts[cantidadIngresados] = rutAlumno[j];
+    				        IngresadosParalelos[cantidadIngresados] = paraleloAlumno[j];
+
+    				        cantidadIngresados++;
+    				    }
+    		   }			
+    	   }
+       if (! encontrado) {
+    	   RechazadosNombres  [cantidadRechazados] = alumnosSolicitudes[i];
+    	   RechazadosApellidos[cantidadRechazados] = apellidoSolicitudes[i];
+    	   cantidadRechazados ++;  
+       }
+       }
+       System.out.println("Procesando solicitudes...");
+       for (int k =0; k < cantidadIngresados;k ++) {
+    	   System.out.println(" [OK] " + IngresadosNombres  [k] + " " + IngresadosApellidos [k] +  " -> admitido en "  +  IngresadosParalelos [k]  );
+       }
+       for (int c =0; c < cantidadRechazados;c ++) {
+    	   System.out.println(" [RECHAZADO] " + RechazadosNombres  [c] + " " + RechazadosApellidos [c] +  " -> no pertenece a ningun paralelo"  );
+       }
+       System.out.println(" Resumen:" + cantidadIngresados + " admitidos /" + cantidadRechazados + " rechazados /"+ totalcantidadDuplicados + " duplicados");
+       solicitudesProcesadas = true;
+      
+      }
+    
      public  static void sobreescribirLista() {
-            try{
-                FileWriter filewrite= new FileWriter("alumnos.txt");
-                BufferedWriter br= new BufferedWriter(filewrite);
-                for(int i=0; i<alumnos.length; i++){
-                    br.write(alumnos[i]);
-                    br.newLine();
-                }
+		    try{
+		        FileWriter filewrite = new FileWriter("Alumnos.txt");
+		        BufferedWriter br = new BufferedWriter(filewrite);
 
-                
-            }catch(Exception e){
-                System.out.println("Error en la sobre escritura del anuncio, contacte soporte tecnico");
-            }
-    }
+		        for(int i=0; i<cantidadAlumnos; i++){
+		            br.write(alumnos[i] + ";" + apellidoAlumno[i] + ";" + rutAlumno[i] + ";" + paraleloAlumno[i]);
+		            br.newLine();
+		        }
+
+		        br.close();
+
+		    } catch(Exception e){
+		        System.out.println("Error en la sobre escritura del anuncio, contacte soporte tecnico");
+		        System.out.println(e.getMessage());
+		    }
+		}
 
 
     public  static void cargarArchivos() {
-
-        File Archivo = new File("alumnos.txt");
-        File Archivo2 = new File("solicitudes.txt");
-
-        try (Scanner Lector = new Scanner(Archivo)) {
+    	 if(cantidadAlumnos > 0 || cantidadSolicitudes > 0) {
+    	        System.out.println("Los archivos ya fueron cargados.");
+    	        return;
+    	    }
+        File Archivo = new File("Alumnos.txt");
+        File Archivo2 = new File("Solicitudes.txt");
+        
+        try (Scanner Lector = new Scanner(Archivo)){
+        		
             while (Lector.hasNextLine()) {
-                String Linea = Lector.nextLine();
-                alumnos[cantidadAlumnos] = Linea;
-                cantidadAlumnos++;
-                totalCantidadAlumnos++;
+            	if(cantidadAlumnos >= 100) {
+            	    System.out.println("Se alcanzo la capacidad maxima de alumnos.");
+            	    break;
+            	}
+            	 String Linea = Lector.nextLine();
+            	 
+                 String [] datos = Linea.split(";");
+                 if (datos.length >= 4) {
+	                 alumnos[cantidadAlumnos] = datos[0]; 
+	                 apellidoAlumno[cantidadAlumnos] = datos[1]; 
+	                 rutAlumno[cantidadAlumnos] = datos[2]; 
+	                 paraleloAlumno[cantidadAlumnos] = datos[3];
+	                 
+	                cantidadAlumnos++;
+                 }
+             
             }
         } catch (FileNotFoundException e) {
             System.out.println("No se encontro Alumnos.txt");
         }
+        
         try (Scanner Lector = new Scanner(Archivo2)) {
             while (Lector.hasNextLine()) {
-                String Linea = Lector.nextLine();
-                solicitudes[cantidadSolicitudes] = Linea;
-                cantidadSolicitudes++;
+            	if(cantidadSolicitudes >= 100) {
+            	    System.out.println("Se alcanzo la capacidad maxima de solicitudes.");
+            	    break;
+            	}
+            	String Linea2 = Lector.nextLine();
+            	String  [] datosSolicitudes = Linea2.split("-");
+        	if(datosSolicitudes.length >= 2) {
+            	alumnosSolicitudes [cantidadSolicitudes] = datosSolicitudes [0];
+            	apellidoSolicitudes [cantidadSolicitudes] = datosSolicitudes [1];
+            	
+            	cantidadSolicitudes ++;
+        	}
             }
            
         } catch (FileNotFoundException e) {
 
             System.out.println("No se encontro Solicitudes.txt");
         }
-        for (int i = 0; i < cantidadAlumnos; i++) {
-            System.out.println(alumnos[i]);
-        }
+        System.out.println("Archivos cargados exitosamente !");
+        System.out.println(cantidadAlumnos +" alumnos en la lista.");
+        System.out.println(cantidadSolicitudes +" solicitudes de ingreso.");
+        
     }
-}
+
+
+	}
+
+
