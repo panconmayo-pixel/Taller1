@@ -1,5 +1,6 @@
 package taller1;
-
+//Nombre1 Apellido1 - 21.000.000-K - ICCI
+//Valentina Castillo - 15.166.692-2 - ITI
 import java.io.BufferedWriter;
 
 import java.io.File;
