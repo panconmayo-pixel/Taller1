@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class taller1 {
 	 static Scanner scanner=new Scanner(System.in);
+	//iniciar los arreglos a ocupar y las cantidades con las que se trabajará en el problema.
 	 
 	    static String[] alumnos = new String[100];
 	    static String[] apellidoAlumno= new String[100];
@@ -46,6 +47,7 @@ public class taller1 {
 
 	        
 	public static void main(String[] args) {
+	//Menu principal de usuario.
 		Scanner s = scanner;
         int opcion;
 
@@ -63,6 +65,7 @@ public class taller1 {
             String opcionTexto = s.nextLine();
 
             try {
+				//Asegurarse que se ingresan los datos correctamentes
                 opcion = Integer.parseInt(opcionTexto);
 
                 if(opcion < 1 || opcion > 7) {
@@ -75,7 +78,7 @@ public class taller1 {
                 opcion = 0;
             }
             switch (opcion) {
-
+				//selección de lo que se hará.
                 case 1:
                     cargarArchivos();
                     break; 
