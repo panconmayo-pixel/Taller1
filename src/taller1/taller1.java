@@ -78,7 +78,7 @@ public class taller1 {
                 opcion = 0;
             }
             switch (opcion) {
-				//selección de lo que se hará.
+				//Métodos donde se hará el desarrollo del código.
                 case 1:
                     cargarArchivos();
                     break; 
@@ -107,16 +107,18 @@ public class taller1 {
 
 	
 	public static void generarReporte() {
-		
+		//Generar reporte. Escoger primero el tipo de reporte a hacer.
 		System.out.println("Ingrese el tipo de reporte que quiere crear:  \n1) Reporte paralerlo C1  \n2) Reporte paralerlo C2 \n3)Reporte sobre los Rechazados  ");
         System.out.println();
         String selec=scanner.nextLine();
         int seleccion=Integer.parseInt(selec);
+		//Control de error sobre la opción que se  ingresa.
         while(seleccion !=1 && seleccion !=2  && seleccion !=3){
         	   	System.out.println("Opcion invalida, ingrese nuevamente");	
         	   	seleccion=scanner.nextInt();
         	   	
            }
+		
         switch(seleccion){
             case 1:
                 reporteCUno();
@@ -133,32 +135,34 @@ public class taller1 {
 
 
 	public static void reporteRechazados() {
+		//Hacer un archivo txt con los datos de los alumnos rechazados.
 		try{
 			System.out.println("Ingreso rechazo");
-	         String Rechazados="Rechazados-V "+contadorReporteRechazados+".txt";
+	         String Rechazados="Rechazados-V "+contadorReporteRechazados+".txt";//con el numero correspondiente que le pertenece.
 	         File file =new File(Rechazados);
-	         if(file.createNewFile()){
-	            FileWriter fw= new FileWriter(file);
+	         if(file.createNewFile()){//Si el archivo no existe se crea.
+	            FileWriter fw= new FileWriter(file);//Creación del archivo txt.
 	            BufferedWriter bw= new BufferedWriter(fw);
 	            String titulo="=== Miembros del grupo - Rechazados ===";
-	            bw.write(titulo);
-	            bw.newLine();
+	            bw.write(titulo);//Escritura de la primera linea del archivo.
+	            bw.newLine();//Escritura de un salto de linea.
 	            for(int i=0; i< cantidadRechazados;i++){
 	                if(RechazadosNombres[i] != null){
 	                    String dato=""+RechazadosNombres[i]+";"+RechazadosApellidos[i];
-	                    bw.write(dato);
-	                    bw.newLine();
+	                    bw.write(dato);//Escritura de una linea.
+	                    bw.newLine();//Escritura de un salto de linea.
 	                	}
 	            	
 
 	            }
+				 //Actualización de contador reporte rechazados.
 	            contadorReporteRechazados++;
 	            bw.close();
 	            fw.close();
 	                     
 	            
 	         }else{
-	            	System.out.println("Archivo"+Rechazados+" ya creado");
+	            	System.out.println("Archivo"+Rechazados+" ya creado");//Si el archivo ya ha sido creado sañta aquí y envía este mensaje.
 	            }
 	        }catch(Exception e){
 	            System.out.println("Error al ingresar Archivo" + e.getMessage());
@@ -169,33 +173,33 @@ public class taller1 {
 
 	public static void reporteCDos() {
 		
-		
+		//Reporte de los alumnos ingresados  pertenecientes al paralelo C2
 		try{
-	         String nombreCDos="ReporteC2-V "+contadorReporteCDos+".txt";
-	         File file =new File(nombreCDos);
-	         if(file.createNewFile()){
+	         String nombreCDos="ReporteC2-V "+contadorReporteCDos+".txt";//Nombre el archivo del reporte.
+	         File file =new File(nombreCDos);//Nombre del archivo.
+	         if(file.createNewFile()){//Si el archivo txt con ese nombre no ha sido creado, se crea. 
 	            FileWriter fw= new FileWriter(file);
-	            BufferedWriter bw= new BufferedWriter(fw);
-	            String titulo="=== Miembros del grupo - Paralelo C2 ===";
-	            bw.write(titulo);
-	            bw.newLine();
+	            BufferedWriter bw= new BufferedWriter(fw);//Escritura en el archivo.
+	            String titulo="=== Miembros del grupo - Paralelo C2 ===";//Primero linea del documento.
+	            bw.write(titulo);//Escribir el título del texto.
+	            bw.newLine();//Escribir una nueva línea. 
 	            for(int i=0; i< cantidadIngresados;i++){
 	            	
 	                if(IngresadosParalelos[i].equalsIgnoreCase("C2")){
-	                    String dato=""+IngresadosNombres[i]+";"+IngresadosApellidos[i]+";"+IngresadosRuts[i]+";"+IngresadosParalelos[i];
-	                    bw.write(dato);
-	                    bw.newLine();
+	                    String dato=""+IngresadosNombres[i]+";"+IngresadosApellidos[i]+";"+IngresadosRuts[i]+";"+IngresadosParalelos[i];//Crea la línea con los datops. 
+	                    bw.write(dato);//Escribir línea en el texto.
+	                    bw.newLine();//Escribir salto de línea.
 	                		}
 	                
 	            		}
 	            	
-	            contadorReporteCDos++;
+	            contadorReporteCDos++;//Actualizar la cantidad de reportes creados sobre el paralelo dos.
 	            bw.close();
 	            fw.close();
 	                     
 	            
 	         }else{
-	            	System.out.println("Archivo "+nombreCDos+" ya creado");
+	            	System.out.println("Archivo "+nombreCDos+" ya creado");//El archivo con ese nombre ya ha sido creado.
 	            }
 	        }catch(Exception e){
 	            System.out.println("Error al ingresar Archivo" + e.getMessage());
@@ -205,32 +209,32 @@ public class taller1 {
 
 
 	public static void reporteCUno() {
-		
+		//Reporte de los alumnos ingresados  pertenecientes al paralelo C1.
 		
 		 try{
-	         String nombreCUno="ReporteC1-V "+contadorReporteCUno+".txt";
-	         File file =new File(nombreCUno);
-	         if (file.createNewFile()) {
-		         FileWriter fw = new FileWriter(file);
-		         BufferedWriter bw= new BufferedWriter(fw);
-		         String titulo="=== Miembros del grupo - Paralelo C1 ===";
-		         bw.write(titulo);
-		         bw.newLine();
+	         String nombreCUno="ReporteC1-V "+contadorReporteCUno+".txt";//Nombre el archivo del reporte.
+	         File file =new File(nombreCUno);//Nombre del archivo.
+	         if (file.createNewFile()) {//Si el archivo txt con ese nombre no ha sido creado, se crea. 
+		         FileWriter fw = new FileWriter(file);//Abrir archivo para sobre escritura.
+		         BufferedWriter bw= new BufferedWriter(fw);//Escritura en el archivo.
+		         String titulo="=== Miembros del grupo - Paralelo C1 ===";//Primero linea del documento.
+		         bw.write(titulo);//Escribir el título del texto.
+	             bw.newLine();//Escribir una nueva línea. 
 		         for(int i=0; i< cantidadIngresados;i++){
 		            	 
 		                if(IngresadosParalelos[i].equalsIgnoreCase("C1")){
-		                    String dato=""+IngresadosNombres[i]+";"+IngresadosApellidos[i]+";"+IngresadosRuts[i]+";"+IngresadosParalelos[i];
+		                    String dato=""+IngresadosNombres[i]+";"+IngresadosApellidos[i]+";"+IngresadosRuts[i]+";"+IngresadosParalelos[i];//Creación de la linea que se escribirá.
 		                    System.out.println(dato);
-		                    bw.write(dato);
-		                    bw.newLine();
+		                    bw.write(dato);//Escribir el dato en el documento.
+		                    bw.newLine();//Escribir un salto de Línea.
 		                	}
 		            
 	         }
-	         contadorReporteCUno++;
+	         contadorReporteCUno++;//Actualización de la cantidad de reportes sobre el paralelo C1.
 	         bw.close();
 	         fw.close();
 	         }else {
-	            	System.out.println("Archivo"+nombreCUno+" ya creado");
+	            	System.out.println("Archivo"+nombreCUno+" ya creado");//En caso de el archivo ya haya sido creado, saldrá este mensaje.
 	        
 	         }
 	        }catch(Exception e){
@@ -244,27 +248,27 @@ public class taller1 {
 
 	public  static void analisisEstadistico () {
 		System.out.println("Analisis estadistico rechazados y admitidos ");
-		if (cantidadSolicitudes == 0) {
+		if (cantidadSolicitudes == 0) {//Control de error.
             System.out.println("No hay solicitudes cargadas.");
             return;
         }
 		
-		double porcentajeRechazo = ((double)cantidadRechazados / cantidadSolicitudes) * 100;
-		double tasaAdmision = ((double)cantidadIngresados / cantidadSolicitudes) * 100;
+		double porcentajeRechazo = ((double)cantidadRechazados / cantidadSolicitudes) * 100;//Cálculo de porcentaje Rechazo. 
+		double tasaAdmision = ((double)cantidadIngresados / cantidadSolicitudes) * 100;//Calculo de tasa de admisión.
 		int cantidadC1 = 0;
 	    int cantidadC2 = 0;
 
 		    for(int i=0; i<cantidadAlumnos; i++) {
 		        if(paraleloAlumno[i].equalsIgnoreCase("C1")) {
-		            cantidadC1++;
+		            cantidadC1++;//Contador de alumnos pertenecientes al paralelo C1.
 		        }
 		        if(paraleloAlumno[i].equalsIgnoreCase("C2")) {
-		            cantidadC2++;
+		            cantidadC2++;//Contador de alumnos pertenecientes al paralelo C2.
 		        }
 		    }
-		    double porcentajeC1 = ((double)cantidadC1 / cantidadAlumnos) * 100;
-		    double porcentajeC2 = ((double)cantidadC2 / cantidadAlumnos) * 100;
-
+		    double porcentajeC1 = ((double)cantidadC1 / cantidadAlumnos) * 100;//Cálculo del porcentaje de C1
+		    double porcentajeC2 = ((double)cantidadC2 / cantidadAlumnos) * 100;//Cálculo del porcentaje de C2.
+			//Mostrar los resultados que se cálcularon..
 		    System.out.println("Porcentaje de rechazo: " + porcentajeRechazo + "%");
 		    System.out.println("Tasa de admision: " + tasaAdmision + "%");	    
 		    System.out.println("Porcentaje de alumnos en C1: " + porcentajeC1 + "%");
@@ -272,24 +276,24 @@ public class taller1 {
 		}
 	
     public  static void administracionCurso() {
-    	
+    	//Administrar el curso.
        System.out.println("Administracion del curso");
        System.out.println("Seleccione una  opcion:");
        System.out.println("1) Cambiar paralelo de un alumno");
        System.out.println("2) Eliminar alumno del curso");
        System.out.println("3) Inscribir alumno nuevo");
        System.out.println("4) Volver al menu principal");
-       
+       //Selección de la opción 
        System.out.println("Ingrese opcion: ");
        String  opcion=scanner.nextLine();
-       
+       //control de error en caso de ingresar una opción inválida.
        while(!opcion.equalsIgnoreCase("1") && !opcion.equalsIgnoreCase("2") 
     		&& !opcion.equalsIgnoreCase("3") && !opcion.equalsIgnoreCase("4")){
     	   	System.out.println("Opcion invalida, ingrese nuevamente");	
     	   	opcion=scanner.nextLine();
     	   	
        }
-       
+       //Llamar al método que se utilizará.
        int opcionEntera = Integer.parseInt(opcion);
        
        switch(opcionEntera){
@@ -310,90 +314,92 @@ public class taller1 {
 
     public static void agregarAlumno() {
         System.out.println("Ingresar alumnos");
-        
-        if(cantidadAlumnos >= 100) {
+        //Método para agregar alumnos.
+        if(cantidadAlumnos >= 100) {//control de error en caso de ya tener la capacidad máxima y no se puede agregar más.
         	System.out.println("No se pueden agregar mas alumnos,supero la capacidad maxima admitida");
         	return;
         }
         
         System.out.println("Ingrese el nombre del nuevo alumno: ");
-        String nombreNuevo = scanner.nextLine();
-        while(nombreNuevo.equals("")) {
+        String nombreNuevo = scanner.nextLine();//Ingreso del  nombre
+        while(nombreNuevo.equals("")) {//Control de error en caso de que se ingrese el nombre erroneo erroneo.
             System.out.println("El nombre no puede estar vacio.");
             System.out.println("Ingrese nuevamente el nombre:");
-            nombreNuevo = scanner.nextLine();
+            nombreNuevo = scanner.nextLine();//Volver a ingresar el Nombre.
         }
         
         System.out.println("Ingrese el apellido del estudiante: ");
-        String apellidoNuevo=scanner.nextLine();
-        while(apellidoNuevo.equals("")) { 
+        String apellidoNuevo=scanner.nextLine();//Ingresar el apellido nuevo.
+        while(apellidoNuevo.equals("")) { //control de error en caso de ingresar un apellido inválido.
             System.out.println("El apellido no puede estar vacio.");
             System.out.println("Ingrese nuevamente el apellido:");
             apellidoNuevo = scanner.nextLine();
         }
         
         System.out.println("Ingrese el rut del nuevo alumno: ");
-        String rutNuevo=scanner.nextLine();
-        while(rutNuevo.equals("")) { 
+        String rutNuevo=scanner.nextLine();//Ingrese el rut del alumno.
+        while(rutNuevo.equals("")) { //Control de error en caso de ingresar un rut erroneo.
             System.out.println("El rut no puede estar vacio.");
             System.out.println("Ingrese nuevamente el rut:");
             rutNuevo = scanner.nextLine();
         }
         
         for(int i=0; i<cantidadAlumnos; i++) {
-            if(rutNuevo.equalsIgnoreCase(rutAlumno[i])) {
+            if(rutNuevo.equalsIgnoreCase(rutAlumno[i])) {//En caso de que el rut ya existe, es inválido como nuevo rut, por que los ruts son únicos. 
                 System.out.println("Ese RUT ya pertenece a un alumno.");
                 return;
             }
         }
         System.out.println("ingrese el paralelo (C1/C2) del nuevo alumno: ");
-        String paraleloNuevo = scanner.nextLine();
+        String paraleloNuevo = scanner.nextLine();//Ingresar el paralelo al que pertenece.
         while(!paraleloNuevo.equalsIgnoreCase("C1") &&
-                !paraleloNuevo.equalsIgnoreCase("C2")) {
+                !paraleloNuevo.equalsIgnoreCase("C2")) {//Control de error al ingresar el paralelo.
 
               System.out.println("Paralelo invalido solo puede ser C1 o C2.");
               System.out.println("Ingrese nuevamente el paralelo:");
               paraleloNuevo = scanner.nextLine();
           }
+		//Ingresar los datos en las listas.
         alumnos[cantidadAlumnos] = nombreNuevo; 
         apellidoAlumno[cantidadAlumnos] = apellidoNuevo; 
         rutAlumno[cantidadAlumnos] = rutNuevo; 
         paraleloAlumno[cantidadAlumnos] = paraleloNuevo; 
-        cantidadAlumnos++;
+        cantidadAlumnos++;// actualización en la cantidad de alumnos.
         sobreescribirLista(); 
         System.out.println("Alumno agregado correctamente.");
     }
 
 
-    public static void eliminarAlumnoCurso() {
+    public static void eliminarAlumnoCurso() {//Eliminar el alumno del curso.
         System.out.println("Ingrese el rut del alumno que desee eliminar.");
-        String rutEliminar = scanner.nextLine();
+        String rutEliminar = scanner.nextLine();//Ingresar valor del rut. 
         
         int indiceEliminar = buscarIndiuce(rutEliminar);
-        if(indiceEliminar == -1) {
+        if(indiceEliminar == -1) {//En caso de que no exista el rut en la lista.
         	System.out.println("No se encontro un alumno con ese rut");
             return;
         }
-        eliminar(indiceEliminar);
+        eliminar(indiceEliminar);//Eliminar el dato.
         }
     
-    public static void eliminar(int indiceEliminar) {
-        String rutEliminado = rutAlumno[indiceEliminar];
+    public static void eliminar(int indiceEliminar) {//Método para eliminar Datos.
+        String rutEliminado = rutAlumno[indiceEliminar];//Dato para eliminar.
         
         for(int i = 0; i < cantidadIngresados; i++) {
-            if(rutEliminado.equalsIgnoreCase(IngresadosRuts[i])) {
-                for(int j = i; j < cantidadIngresados - 1; j++) {
+            if(rutEliminado.equalsIgnoreCase(IngresadosRuts[i])) {//Buscar datos de del alumno a eliminar.
+                for(int j = i; j < cantidadIngresados - 1; j++) {//Actualizar el orden de las listas una vez eliminado los datos.
                     IngresadosNombres[j] = IngresadosNombres[j + 1];
                     IngresadosApellidos[j] = IngresadosApellidos[j + 1];
                     IngresadosRuts[j] = IngresadosRuts[j + 1];
                     IngresadosParalelos[j] = IngresadosParalelos[j + 1];
                 }
+				//Eliminar el dato final, se tranforma en null.
                 IngresadosNombres[cantidadIngresados - 1] = null;
                 IngresadosApellidos[cantidadIngresados - 1] = null;
                 IngresadosRuts[cantidadIngresados - 1] = null;
                 IngresadosParalelos[cantidadIngresados - 1] = null;
 
-                cantidadIngresados --;
+                cantidadIngresados --;//Actualizar la cantidad de Ingresados.
                 break;
             }
         }
@@ -407,30 +413,30 @@ public class taller1 {
     public static void cambiarordenBusbuja(int indiceEliminar) {
 
         for(int i=indiceEliminar; i<cantidadAlumnos-1; i++){
-
+			//Cambiar el orden despies de eliminar el dato.
             alumnos[i] = alumnos[i+1];
             apellidoAlumno[i] = apellidoAlumno[i+1];
             rutAlumno[i] = rutAlumno[i+1];
             paraleloAlumno[i] = paraleloAlumno[i+1];
 
         }
-
+		//Eliminar el dato final, se tranforma en null.
         alumnos[cantidadAlumnos-1] = null;
         apellidoAlumno[cantidadAlumnos-1] = null;
         rutAlumno[cantidadAlumnos-1] = null;
         paraleloAlumno[cantidadAlumnos-1] = null;
 
-        cantidadAlumnos--;
+        cantidadAlumnos--;//Actualizar la cantidad de alumnos.
     }
     
 
-    public  static void cambiarParalelo() {
+    public  static void cambiarParalelo() {//metodo para cambio de paralelo.
        System.out.println("Ingrese el rut del alumno: ");
        String rutIngresado = scanner.nextLine();
        
        int indice = buscarIndiuce(rutIngresado);
 
-       if(indice == -1) {
+       if(indice == -1) {//en casod e que no se encuentre el rut
            System.out.println("No se encontro un alumno con ese RUT.");
            return;
        }
@@ -438,7 +444,7 @@ public class taller1 {
        buscarRUT(rutIngresado);
        String paraleloNuev=null;
 
-       while (paraleloNuev==null || !paraleloNuev.equalsIgnoreCase("C1") && !paraleloNuev.equalsIgnoreCase("C2") ) {
+       while (paraleloNuev==null || !paraleloNuev.equalsIgnoreCase("C1") && !paraleloNuev.equalsIgnoreCase("C2") ) {//Control de error.
             System.out.println("Nuevo paralelo (C1/C2):  ");
             paraleloNuev=scanner.nextLine();
             
@@ -448,7 +454,7 @@ public class taller1 {
             }
         }
         cambiarParaleloEfectivo(paraleloNuev,rutIngresado);
-        sobreescribirLista();
+        sobreescribirLista();//Cambiar los valores en el archivo txt.
         System.out.println("Paralelo cambiado correctamente.");
         }
     
@@ -466,15 +472,15 @@ public class taller1 {
         }
     }
 
-    public  static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {
-                int indice=buscarIndiuce(rutIngresado);
-                if(indice == -1) {
+    public  static void cambiarParaleloEfectivo(String paraleloNuev, String rutIngresado) {//Realizar el cambio de paralelo.
+                int indice=buscarIndiuce(rutIngresado);//Se busca el indice.
+                if(indice == -1) {//En caso de que no se necuentre el rut.
                     System.out.println("No se encontro un alumno con ese rut");
                     return;
                 }
-                paraleloAlumno[indice] = paraleloNuev;
+                paraleloAlumno[indice] = paraleloNuev;//Cambiar el paralelo al que pertenece el alumno.
                 for(int i=0; i<cantidadIngresados; i++) {
-                    if(rutIngresado.equalsIgnoreCase(IngresadosRuts[i])) {
+                    if(rutIngresado.equalsIgnoreCase(IngresadosRuts[i])) {//Se tiene que hacer el cambio tambien en la lista de ingresados.
                         IngresadosParalelos[i] = paraleloNuev;
                         break;
                     }
@@ -483,9 +489,9 @@ public class taller1 {
               
 
         
-    public  static int buscarIndiuce(String rutIngresado) {
+    public  static int buscarIndiuce(String rutIngresado) {//Buscar el indice del rut.
 		for(int i=0; i< cantidadAlumnos; i++){
-			if(rutIngresado.equalsIgnoreCase(rutAlumno[i])){
+			if(rutIngresado.equalsIgnoreCase(rutAlumno[i])){//Recorrer la lista de ruts del alumno para retornar su posición en la lista.
 	            return i;
 	        }
 			
@@ -576,21 +582,21 @@ public class taller1 {
         
 
     public static void inscripcionPorNombre() {
-
-        System.out.println("Ingrese el nombre del alumno:");
+		//Método para inscribir por nombre.
+        System.out.println("Ingrese el nombre del alumno:");//Inicialización de las variables a utilizar.
         String nombreNuevo = null;
         String apellidoNuevo = null;
 
         try {
-            nombreNuevo = scanner.nextLine();
-            while(nombreNuevo.equals("")) {
+            nombreNuevo = scanner.nextLine();//Ingreso del nombre a Ingresar.
+            while(nombreNuevo.equals("")) {//Control de error.
                 System.out.println("El nombre no puede estar vacio.");
                 System.out.println("Ingrese nuevamente el nombre:");
                 nombreNuevo = scanner.nextLine();
             }
             System.out.println("Ingrese el apellido que quiere ingersar: ");
             apellidoNuevo = scanner.nextLine();
-            while(apellidoNuevo.equals("")) {
+            while(apellidoNuevo.equals("")) {//Control de error.
                 System.out.println("El apellido no puede estar vacio.");
                 System.out.println("Ingrese nuevamente el apellido:");
                 apellidoNuevo = scanner.nextLine();
@@ -602,13 +608,13 @@ public class taller1 {
 
         boolean yaExiste = false;
 
-        if(cantidadIngresados >= 100) {
+        if(cantidadIngresados >= 100) {//Control de error en caso de que ya se tenga el máximo de integrantes ingresados.
             System.out.println("No se pueden ingresar mas alumnos al grupo.");
             return;
         }
 
         for(int i=0; i<cantidadIngresados; i++) {
-
+			//Se busca el caso de que el alumno ya este ingresado.
             if(nombreNuevo.equalsIgnoreCase(IngresadosNombres[i]) && 
                     apellidoNuevo.equalsIgnoreCase(IngresadosApellidos[i])) {
 
@@ -620,19 +626,19 @@ public class taller1 {
             }
         }
 
-        if (!yaExiste) {
+        if (!yaExiste) {//En caso de que el alumno no se en los nombres ingresados.
             for(int i=0; i<cantidadAlumnos; i++) {
                 if(nombreNuevo.equalsIgnoreCase(alumnos[i]) &&
-                        apellidoNuevo.equalsIgnoreCase(apellidoAlumno[i])) {
+                        apellidoNuevo.equalsIgnoreCase(apellidoAlumno[i])) {//Buscar los datos del alumno por  nombre y apellido
                     System.out.println("Solicitud de " + nombreNuevo + " " + apellidoNuevo 
                             + " -> admitido en el chat");
-                    System.out.println("Es alumno ingresar al grupo");
+                    System.out.println("Es alumno ingresar al grupo");//Se encontraron los datos y se guardaran en la lista Ingresados.
                     IngresadosNombres[cantidadIngresados] = nombreNuevo;
                     IngresadosApellidos[cantidadIngresados] = apellidoNuevo;
                     IngresadosRuts[cantidadIngresados] = rutAlumno[i];
                     IngresadosParalelos[cantidadIngresados] = paraleloAlumno[i];
 
-                    cantidadIngresados++;
+                    cantidadIngresados++;//Actualización de la cantidad de Ingresados.
 
                     yaExiste = true;
 
@@ -640,7 +646,7 @@ public class taller1 {
                 }
             }
         }
-
+		//Rechazo del alumno por no encontrar datos sobre a que paralelo pertenecec.
         if(!yaExiste) {
             System.out.println("El alumno no pertenece a ningun paralelo");
             RechazadosNombres[cantidadRechazados] = nombreNuevo;
@@ -651,7 +657,7 @@ public class taller1 {
         }
     }
     
-    public static boolean alumnoYaIngresado(String rut) {
+    public static boolean alumnoYaIngresado(String rut) {//Buscar rut de alumno en los Ingrsados para saber si ya existe en esta lista.
         for(int i = 0; i < cantidadIngresados; i++) {
             if(rut.equalsIgnoreCase(IngresadosRuts[i])) {
                 return true;
@@ -677,7 +683,7 @@ public class taller1 {
     		   if (alumnos[j].equalsIgnoreCase(alumnosSolicitudes[i])
     				    && apellidoAlumno[j].equalsIgnoreCase(apellidoSolicitudes[i])) {
 
-    				    encontrado = true;
+    				    encontrado = true;//El dato ha sido encontrado.
 
     				    if(alumnoYaIngresado (rutAlumno[j])) {
     				    	totalcantidadDuplicados ++;
@@ -720,12 +726,12 @@ public class taller1 {
     
      public  static void sobreescribirLista() {
 		    try{
-		        FileWriter filewrite = new FileWriter("Alumnos.txt");
-		        BufferedWriter br = new BufferedWriter(filewrite);
+		        FileWriter filewrite = new FileWriter("Alumnos.txt");//Abrir el archivo paara rescribir.
+		        BufferedWriter br = new BufferedWriter(filewrite);//Prepararse para escribir.
 
 		        for(int i=0; i<cantidadAlumnos; i++){
-		            br.write(alumnos[i] + ";" + apellidoAlumno[i] + ";" + rutAlumno[i] + ";" + paraleloAlumno[i]);
-		            br.newLine();
+		            br.write(alumnos[i] + ";" + apellidoAlumno[i] + ";" + rutAlumno[i] + ";" + paraleloAlumno[i]);//Rescribir todos los valores del archivo txt con lo que se encuntra en las listas que tienen datos de los alumnos.
+		            br.newLine();//Escribir salto de linea.
 		        }
 
 		        br.close();
