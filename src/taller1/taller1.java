@@ -494,6 +494,7 @@ public class taller1 {
 	}
     
     public static void inscripcionManual() {
+		//Inscripción por parte del usuario de una persona.Seleccionar si se hace a partir del nombre o del rut.
         System.out.println("Inscripcion manual al grupo");
         System.out.println("Como desea inscribir a la persona?");
         System.out.println("1) Por nombre completo");
@@ -505,7 +506,7 @@ public class taller1 {
 
         try {
             opcion = Integer.parseInt(opcionT);
-
+			//Coantrol de error en casod e que se ingrese alguna de las opciones no válidos.
             while(opcion < 1 || opcion > 2) {
                 System.out.println("Opcion invalida, ingrese nuevamente");
                 opcionT = scanner.nextLine();
@@ -516,8 +517,10 @@ public class taller1 {
             return;
         }
         if(opcion == 1) {
+			//Se selecciona inscribir por nombre.
             inscripcionPorNombre();
         } else {
+			//Se selecciona inscribir por rut.
             inscripcionPorRut();
         }
     }
@@ -533,18 +536,19 @@ public class taller1 {
                 System.out.println(e.getMessage());
             }
         	boolean existe = false;
-        	
+        	//Conrol de error de que no se pueden ingresar más de 100 datos.
         	if(cantidadIngresados >= 100) {
         	    System.out.println("No se pueden ingresar mas alumnos al grupo.");
         	    return;
         	}
             for(int i=0;i<cantidadAlumnos;i++){
-            	
+            	//Buscar de que el rut no haya sido ingresado todavía. 
             	 if(alumnoYaIngresado(rutNuevo)) {
             	        System.out.println("El alumno ya ha sido ingresado al grupo.");
             	        existe = true;
             	        break;
             	    }
+				//Buscar el rut en la lista rut alumno y en caso de encontrarse guardar los datos del alumno.
                 if(rutNuevo.equalsIgnoreCase(rutAlumno[i])) {
                 System.out.println("Solicitud de "+ alumnos [i]  +" "+apellidoAlumno[i]+" -> admitido en "+ paraleloAlumno[i]);
                 System.out.println("Es alumno ingresar al grupo");
@@ -552,17 +556,19 @@ public class taller1 {
                 IngresadosApellidos[cantidadIngresados]=apellidoAlumno[i];
                 IngresadosRuts[cantidadIngresados]=rutAlumno[i];
                 IngresadosParalelos[cantidadIngresados] = paraleloAlumno[i];
-                
+                //Actualización de la cantidad de datos.
                 cantidadIngresados ++;
                 existe = true;
                 break;
                 }
             }
             if (!existe) {
+					//Al ser no encontrado el nombre solo se rechaza  el rut, que se guarda en rechazo, y la notificación de que no se tiene  el nombre
                     System.out.println("El rut "+rutNuevo+" no pertenece a ningun alumno");
                     System.out.println("No tenemos su nombre, por lo que se registrara solo el RUT en los rechazados.");
                     RechazadosNombres[cantidadRechazados]="Desconocido solo se dispone del RUT";
                     RechazadosApellidos[cantidadRechazados]=rutNuevo;
+					//Actualización de datos.
                     cantidadRechazados++;
                 }
         }
