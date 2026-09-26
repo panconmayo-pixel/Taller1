@@ -655,12 +655,12 @@ public class taller1 {
     }
     
     public static void procesarSolicitudes() {
-
+		//Asegurarse de no procesar dos veces el mismo archivo txt de solicitudes.
         if(solicitudesProcesadas) {
             System.out.println("Las solicitudes ya fueron procesadas.");
             return;
         }
-
+		//Cantidad de datos que fueron rechazados  por ser ya ingresados al sistema.
         totalcantidadDuplicados = 0;
         boolean encontrado;
       
@@ -682,6 +682,7 @@ public class taller1 {
     				    	    System.out.println("Se alcanzo la capacidad maxima en el  grupo");
     				    	    break;
     				    	}
+							//Ingresado los valores de solicitudes no duplicados pero que si estan ingresados en alumnos. 
     				        IngresadosNombres[cantidadIngresados] = alumnosSolicitudes[i];
     				        IngresadosApellidos[cantidadIngresados] = apellidoSolicitudes[i];
     				        IngresadosRuts[cantidadIngresados] = rutAlumno[j];
@@ -691,12 +692,14 @@ public class taller1 {
     				    }
     		   }			
     	   }
+		// los datos al no ser encontrados se guardan en los rechazados.
        if (! encontrado) {
     	   RechazadosNombres  [cantidadRechazados] = alumnosSolicitudes[i];
     	   RechazadosApellidos[cantidadRechazados] = apellidoSolicitudes[i];
     	   cantidadRechazados ++;  
        }
        }
+	   //Entregar el estado en que quedo la solicitud(  Si fue admitida o rechazada y el resultado final de las solicitudes.
        System.out.println("Procesando solicitudes...");
        for (int k =0; k < cantidadIngresados;k ++) {
     	   System.out.println(" [OK] " + IngresadosNombres  [k] + " " + IngresadosApellidos [k] +  " -> admitido en "  +  IngresadosParalelos [k]  );
