@@ -729,16 +729,20 @@ public class taller1 {
 
 
     public  static void cargarArchivos() {
+		//Lectura de archivos y llenada de los arreglos sobre los alumnos y solicitudes.
+		//asegurarse de que nos se hayan leído ya los archivos.
     	 if(cantidadAlumnos > 0 || cantidadSolicitudes > 0) {
     	        System.out.println("Los archivos ya fueron cargados.");
     	        return;
     	    }
+		//Apertura de los archivos txt.
         File Archivo = new File("Alumnos.txt");
         File Archivo2 = new File("Solicitudes.txt");
         
         try (Scanner Lector = new Scanner(Archivo)){
         		
             while (Lector.hasNextLine()) {
+				//dejar limitado la cantidad de datos que pueden entrar en caso de que haya más datos en los txt de los que pueden caber dentro las listas. 
             	if(cantidadAlumnos >= 100) {
             	    System.out.println("Se alcanzo la capacidad maxima de alumnos.");
             	    break;
@@ -747,6 +751,7 @@ public class taller1 {
             	 
                  String [] datos = Linea.split(";");
                  if (datos.length >= 4) {
+					 //Llenado de la listas relacionadas con alumnos y actualizar el contador de los alumnos.
 	                 alumnos[cantidadAlumnos] = datos[0]; 
 	                 apellidoAlumno[cantidadAlumnos] = datos[1]; 
 	                 rutAlumno[cantidadAlumnos] = datos[2]; 
@@ -762,6 +767,7 @@ public class taller1 {
         
         try (Scanner Lector = new Scanner(Archivo2)) {
             while (Lector.hasNextLine()) {
+				//dejar limitado la cantidad de datos que pueden entrar en caso de que haya más datos en los txt de los que pueden caber dentro las listas. 
             	if(cantidadSolicitudes >= 100) {
             	    System.out.println("Se alcanzo la capacidad maxima de solicitudes.");
             	    break;
@@ -769,9 +775,10 @@ public class taller1 {
             	String Linea2 = Lector.nextLine();
             	String  [] datosSolicitudes = Linea2.split("-");
         	if(datosSolicitudes.length >= 2) {
+				//Llenado de las listas de solicitudes
             	alumnosSolicitudes [cantidadSolicitudes] = datosSolicitudes [0];
             	apellidoSolicitudes [cantidadSolicitudes] = datosSolicitudes [1];
-            	
+            	//Actualización de los datos  distintos de null que existen en solicitudes.
             	cantidadSolicitudes ++;
         	}
             }
@@ -780,6 +787,7 @@ public class taller1 {
 
             System.out.println("No se encontro Solicitudes.txt");
         }
+		//monstrar las cantidades de alumnos y solicitudes con las que se parte.
         System.out.println("Archivos cargados exitosamente !");
         System.out.println(cantidadAlumnos +" alumnos en la lista.");
         System.out.println(cantidadSolicitudes +" solicitudes de ingreso.");
